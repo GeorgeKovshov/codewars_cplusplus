@@ -18,3 +18,10 @@ public:
 };
 
 void makeDirReduct();
+
+class RGBToHex
+{
+public:
+	static std::string rgb(int r, int g, int b);
+	static char convert(int remainder);
+};

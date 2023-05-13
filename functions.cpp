@@ -69,3 +69,79 @@ void makeDirReduct() {
 	string n = "NORTH";
 	cout << my_map[n] << endl;*/
 }
+
+
+char RGBToHex::convert(int remainder) {
+	char result = '0';
+	if (remainder > 9) {
+		switch (remainder) {
+		case 10:
+			result = 'A';
+			break;
+		case 11:
+			result = 'B';
+			break;
+		case 12:
+			result = 'C';
+			break;
+		case 13:
+			result = 'D';
+			break;
+		case 14:
+			result = 'E';
+			break;
+		case 15:
+			result = 'F';
+			break;
+		}
+	}
+	else {
+		result = '0' + remainder;
+	}
+	return result;
+}
+
+
+
+string RGBToHex::rgb(int r, int g, int b) {
+	char x[7] = "000000";
+	int current = b;
+	for (int i = 5; i >= 0; i--) {
+		if (i % 2 != 0) {
+			switch (i) {
+			case 1:
+				current = r;
+				break;
+			case 3:
+				current = g;
+				break;
+
+			}
+			if (current < 0) {
+				current = 0;
+			}
+			else if (current > 255) {
+				current = 255;
+			}
+
+		}
+		cout << "i: " << i << " string: " << x << " current: " << current << endl;
+		x[i] = RGBToHex::convert(current % 16);
+		current = current / 16;
+
+	}
+
+	return string(x);
+}
+
+void rgb_conversion() {
+	//cout << RGBToHex::rgb(255, 255, 255);
+	//cout << RGBToHex::rgb(162, 23, 3);
+	cout << RGBToHex::rgb(-162, -23, -3);
+	//cout << RGBToHex::rgb(1, 2, 3);
+	//cout << RGBToHex::convert(23%16);
+	char a;
+	int b = 9;
+	a = '0' + b;
+	///cout << a;
+}
