@@ -145,3 +145,43 @@ void rgb_conversion() {
 	a = '0' + b;
 	///cout << a;
 }
+
+/*
+#include <sstream>
+#include <iomanip>
+class RGBToHex2
+{
+public:
+	static std::string rgb(int r, int g, int b);
+};
+
+std::string RGBToHex2::rgb(int r, int g, int b)
+{
+	std::ostringstream oss;
+	//oss << "sus" << " makaroni " << g;
+	oss << std::uppercase << std::setfill('0') << std::hex
+		<< std::setw(2) << (r < 0 ? 0 : r > 255 ? 255 : r)// std::clamp(r, 0, 255)
+		<< std::setw(2) << (g < 0 ? 0 : g > 255 ? 255 : g)//std::clamp(g, 0, 255)
+		<< std::setw(2) << (b < 0 ? 0 : b > 255 ? 255 : b);//std::clamp(b, 0, 255);
+	return oss.str();
+}*/
+
+
+/*
+#include <algorithm>
+#include <cstdio>
+
+namespace RGBToHex
+{
+	std::string rgb(int r, int g, int b)
+	{
+		char result[7];
+		std::sprintf(result, "%02X%02X%02X",
+			std::clamp(r, 0, 255),
+			std::clamp(g, 0, 255),
+			std::clamp(b, 0, 255));
+		return result;
+	}
+}
+
+*/
