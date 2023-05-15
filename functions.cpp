@@ -185,3 +185,124 @@ namespace RGBToHex
 }
 
 */
+
+
+int maxSequence2(const std::vector<int>& arr) {
+	int length = arr.size();
+	int max_sum = 0;
+	int sum = 0;
+	int minus = 0;
+	bool just_passed = true;
+	for (int i = 0; i < length; i++) {
+
+		if (arr[i] >= 0) {
+			sum += arr[i];
+		}
+		else {
+			int old_max_sum = max_sum;
+			int tmp = max(sum, max_sum);
+			if (just_passed) {
+				max_sum = max(tmp, sum + max_sum + minus);
+			}
+			else {
+				max_sum = tmp;
+			}
+			if (max_sum != old_max_sum) {
+				just_passed = true;
+			}
+			else {
+				just_passed = false;
+			}
+
+			sum = 0;
+			minus = 0;
+			while (i < length && arr[i] < 0) {
+				minus += arr[i];
+				i++;
+				//just_passed = true;
+			}
+			i--;
+
+		}
+		cout << "arr[" << i << "]: " << arr[i] << " minus: " << minus << " max_sum: " << max_sum << " summ: " << sum << " just passed: " << just_passed << endl;
+
+	}
+	int old_max_sum = max_sum;
+	int tmp = max(sum, max_sum);
+	if (just_passed) {
+		max_sum = max(tmp, sum + max_sum + minus);
+	}
+	else {
+		max_sum = tmp;
+	}
+	if (max_sum != old_max_sum) {
+		just_passed = true;
+	}
+	else {
+		just_passed = false;
+	}
+	return max_sum;
+}
+
+
+int maxSequence(const std::vector<int>& arr) {
+	if (arr.empty()) {
+		return 0;
+	}
+	int cur_sum = arr[0];
+	int max_sum = arr[0];
+	int length = arr.size();
+	for (int i = 1; i < length; i++) {
+		cur_sum = max(arr[i], cur_sum + arr[i]);
+		max_sum = max(cur_sum, max_sum);
+	}
+	return (max_sum > 0) ? max_sum : 0;
+}
+
+int convert_ascii(int ascii, int last_letter_index) {
+	ascii += 13;
+	if (ascii > last_letter_index) {
+		ascii -= 26;
+	}
+	return ascii;
+}
+
+string rot13(string msg)
+{
+	ostringstream bar;
+
+	for (char x : msg) {
+		int ascii = int(x);
+		if (65 <= ascii && ascii <= 90) {
+			ascii = convert_ascii(ascii, 90);
+		}
+		else if (97 <= ascii && ascii <= 122) {
+			ascii = convert_ascii(ascii, 122);
+		}
+		bar << char(ascii);
+
+		//cout << ascii << endl;
+	}
+	return bar.str();
+}
+
+
+
+void playing_with_Ascii() {
+	char c = 'c';
+	char a = 'a';
+	cout << int(a) << endl;
+	cout << int('A') << endl;
+	cout << int('z') << endl;
+	cout << int('Z') << endl;
+	cout << char(98) << endl;
+}
+
+
+std::string rot13_2(std::string msg)
+{
+	for (auto& x : msg)
+		if (islower(x)) x = 'a' + (x - 'a' + 13) % 26;
+		else if (isupper(x)) x = 'A' + (x - 'A' + 13) % 26;
+	return msg;
+}
