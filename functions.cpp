@@ -320,3 +320,97 @@ std::vector<ull> ProdFib::productFib(ull prod) {
 	}
 	return { f1, f2, false };
 }
+
+
+unsigned long recursive_mystery(unsigned long n, unsigned long high, unsigned long low, unsigned long high_ind, unsigned long low_ind, int direction, int maximum) {
+	if (maximum >= 6) {
+		return -1;
+	}
+	if (high - low == 1) {
+		if (direction == 1) {
+			return (n == high) ? high_ind : low_ind;
+		}
+		else {
+			return (n == high) ? low_ind : high_ind;
+		}
+	}
+	unsigned long middle = (high - low) / 2 + low;
+	unsigned long middle_ind = (high_ind - low_ind) / 2 + low_ind;
+
+	if (middle <= 0) {
+		return high_ind;
+	}
+
+	if (direction == 1) {
+		if (n > middle) {
+			return recursive_mystery(n, high, middle + 1, high_ind, middle_ind + 1, -direction, maximum + 1);
+		}
+		else if (n <= middle) {
+			return recursive_mystery(n, middle, low, middle_ind, low_ind, direction, maximum + 1);
+		}
+	}
+	else {
+		if (n <= middle) {
+			return recursive_mystery(n, middle, low, high_ind, middle_ind + 1, direction, maximum + 1);
+		}
+		else if (n > middle) {
+			return recursive_mystery(n, high, middle + 1, middle_ind, low_ind, -direction, maximum + 1);
+		}
+	}
+
+}
+
+unsigned long mysteryInv(unsigned long n) {
+	unsigned long highest = 2;
+	while (highest <= n) {
+		highest *= 2;
+	}
+	return recursive_mystery(n, highest - 1, 0, highest - 1, 0, 1, 0);
+}
+
+
+unsigned long recursive_mystery2(unsigned long ind, unsigned long high, unsigned long low, unsigned long high_ind, unsigned long low_ind, int direction, int maximum) {
+	if (maximum >= 6) {
+		return -1;
+	}
+	if (high_ind - low_ind == 1) {
+		if (direction == 1) {
+			return (ind == high_ind) ? high : low;
+		}
+		else {
+			return (ind == high_ind) ? low : high;
+		}
+	}
+	unsigned long middle = (high - low) / 2 + low;
+	unsigned long middle_ind = (high_ind - low_ind) / 2 + low_ind;
+
+	if (middle <= 0) {
+		return high_ind;
+	}
+
+	if (direction == 1) {
+		if (ind > middle_ind) {
+			return recursive_mystery2(ind, high, middle + 1, high_ind, middle_ind + 1, -direction, maximum + 1);
+		}
+		else if (ind <= middle_ind) {
+			return recursive_mystery2(ind, middle, low, middle_ind, low_ind, direction, maximum + 1);
+		}
+	}
+	else {
+		if (ind <= middle_ind) {
+			return recursive_mystery2(ind, high, middle + 1, middle_ind, low_ind, -direction, maximum + 1);
+		}
+		else if (ind > middle_ind) {
+			return recursive_mystery2(ind, middle, low, high_ind, middle_ind + 1, direction, maximum + 1);
+		}
+	}
+
+}
+
+unsigned long mystery(unsigned long n) {
+	unsigned long highest = 2;
+	while (highest <= n) {
+		highest *= 2;
+	}
+	return recursive_mystery2(n, highest - 1, 0, highest - 1, 0, 1, 0);
+}
