@@ -306,3 +306,17 @@ std::string rot13_2(std::string msg)
 		else if (isupper(x)) x = 'A' + (x - 'A' + 13) % 26;
 	return msg;
 }
+
+std::vector<ull> ProdFib::productFib(ull prod) {
+	ull f1 = 0;
+	ull f2 = 1;
+	while (f1 * f2 < prod) {
+		int tmp = f2;
+		f2 = f1 + f2;
+		f1 = tmp;
+	}
+	if (f1 * f2 == prod) {
+		return { f1, f2, true };
+	}
+	return { f1, f2, false };
+}

@@ -33,3 +33,11 @@ int convert_ascii(int ascii, int last_letter_index);
 string rot13(string msg);
 void playing_with_Ascii();
 std::string rot13_2(std::string msg);
+
+
+typedef unsigned long long ull;
+class ProdFib
+{
+public:
+	static std::vector<ull> productFib(ull prod);
+};
