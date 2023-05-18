@@ -414,3 +414,105 @@ unsigned long mystery(unsigned long n) {
 	}
 	return recursive_mystery2(n, highest - 1, 0, highest - 1, 0, 1, 0);
 }
+
+
+int print_prime_numbers(int n) {
+	int count = 0;
+	bool check;
+	for (int i = 2; i < n; i++) {
+		check = true;
+		for (int j = 2; j < i; j++) {
+			if (i % j == 0) {
+				check = false;
+			}
+		}
+		if (check == true) {
+			cout << i << ", ";
+			count++;
+		}
+
+	}
+	return count;
+}
+
+vector<int> make_vector_prime_numbers(int n) {
+	vector<int> vec;
+	bool check;
+	for (int i = 2; i < n; i++) {
+		check = true;
+		for (int j = 2; j < i; j++) {
+			if (i % j == 0) {
+				check = false;
+			}
+		}
+		if (check == true) {
+
+			vec.push_back(i);
+		}
+
+	}
+	return vec;
+}
+
+
+
+
+void SumOfDivided::add_prime_numbers(int n) {
+	int old_last_elem = primes.back() + 1;
+	bool check;
+	for (int i = old_last_elem; i <= n+1; i++) {
+		check = true;
+		for (int j = 2; j < i; j++) {
+			if (i % j == 0) {
+				check = false;
+				break;
+			}
+		}
+		if (check == true) {
+
+			primes.push_back(i);
+		}
+
+	}
+}
+
+
+vector<int> SumOfDivided::primes = { 2, 3 };
+
+
+#include <stdlib.h> 
+
+std::string SumOfDivided::sumOfDivided(std::vector<int>& lst) {
+	if (lst.empty()) {
+		return "()";
+	}
+	ostringstream result;
+	int biggest_elem =max(*max_element(std::begin(lst), std::end(lst)), lst.back());
+	int smallest_elem = min(*min_element(std::begin(lst), std::end(lst)), lst.back());
+	biggest_elem = max(biggest_elem, abs(smallest_elem));
+	if (biggest_elem > primes.back()) {
+		add_prime_numbers(biggest_elem);
+	}
+	bool check;
+	int length = primes.size();
+	for (int i = 0; (primes[i] <= biggest_elem && i < length-1); i++) {
+		check = false;
+		int sum = 0;
+		for (int y : lst) {
+			if (y % primes[i] == 0) {
+				check = true;
+				sum += y;
+			}
+		}
+		if (check == true) {
+			result << "(" << primes[i] << " " << sum << ")";
+		}
+	}
+	return result.str();
+}
+
+/*
+"(2 233226)(3 148941)(5 41155)(7 82215)(11 57288)(13 47164)(17 21522)(29 43645)(31 -4154)(53 32701)(59 26432)(67 55007)(73 15622)(79 29783)(83 33366)(107 15622)(109 -1526)(149 11026)(197 26004)(227 33823)(239 13862)(251 2510)(311 6220)(499 5489)(617 32701)(739 37689)(827 10751)(2251 31514)(2657 7971)(2903 26127)(3691 29528)(6869 27476)(9871 19742)(11317 33951)(17923 17923)(22717 22717)(29611 29611)(37991 37991)"
+Actual: 
+"(2 233226)(3 148941)(5 41155)(7 82215)(11 57288)(13 47164)(17 21522)(29 43645)(31 -4154)(53 32701)(59 26432)(67 55007)(73 15622)(79 29783)(83 33366)(107 15622)(109 -1526)(149 11026)(197 26004)(227 33823)(239 13862)(251 2510)(311 6220)(499 5489)(617 32701)(739 37689)(827 10751)(2251 31514)(2657 7971)(2903 26127)(3691 29528)(6869 27476)(9871 19742)(11317 33951)(17923 17923)(22717 22717)(29611 29611)"
+*/

@@ -46,3 +46,14 @@ unsigned long recursive_mystery(unsigned long n, unsigned long high, unsigned lo
 unsigned long mysteryInv(unsigned long n);
 unsigned long recursive_mystery2(unsigned long ind, unsigned long high, unsigned long low, unsigned long high_ind, unsigned long low_ind, int direction, int maximum);
 unsigned long mystery(unsigned long n);
+int print_prime_numbers(int n);
+vector<int> make_vector_prime_numbers(int n);
+
+class SumOfDivided
+{
+
+public:
+	static vector<int> primes;
+	static std::string sumOfDivided(std::vector<int>& lst);
+	static void add_prime_numbers(int n);
+};
