@@ -57,3 +57,8 @@ public:
 	static std::string sumOfDivided(std::vector<int>& lst);
 	static void add_prime_numbers(int n);
 };
+
+
+void carrying_over(std::ostringstream* bar, const std::string& c, int* carry, int* i);
+void finishing_up(std::ostringstream* bar, const std::string& c, int i);
+std::string add(const std::string& a, const std::string& b);

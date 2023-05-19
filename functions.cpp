@@ -511,8 +511,67 @@ std::string SumOfDivided::sumOfDivided(std::vector<int>& lst) {
 	return result.str();
 }
 
-/*
-"(2 233226)(3 148941)(5 41155)(7 82215)(11 57288)(13 47164)(17 21522)(29 43645)(31 -4154)(53 32701)(59 26432)(67 55007)(73 15622)(79 29783)(83 33366)(107 15622)(109 -1526)(149 11026)(197 26004)(227 33823)(239 13862)(251 2510)(311 6220)(499 5489)(617 32701)(739 37689)(827 10751)(2251 31514)(2657 7971)(2903 26127)(3691 29528)(6869 27476)(9871 19742)(11317 33951)(17923 17923)(22717 22717)(29611 29611)(37991 37991)"
-Actual: 
-"(2 233226)(3 148941)(5 41155)(7 82215)(11 57288)(13 47164)(17 21522)(29 43645)(31 -4154)(53 32701)(59 26432)(67 55007)(73 15622)(79 29783)(83 33366)(107 15622)(109 -1526)(149 11026)(197 26004)(227 33823)(239 13862)(251 2510)(311 6220)(499 5489)(617 32701)(739 37689)(827 10751)(2251 31514)(2657 7971)(2903 26127)(3691 29528)(6869 27476)(9871 19742)(11317 33951)(17923 17923)(22717 22717)(29611 29611)"
-*/
+
+void carrying_over(std::ostringstream* bar, const std::string& c, int* carry, int* i) {
+	/* looping through array with a carried 1 */
+	while (*carry != 0) {
+		if (*i >= 0) {
+			int num = int(c[*i]) - int('0') + *carry;
+			*bar << num % 10;
+			*carry = num / 10;
+			*i = *i - 1;
+		}
+		else {
+			*bar << *carry;
+			*carry = 0;
+		}
+	}
+}
+
+
+void finishing_up(std::ostringstream* bar, const std::string& c, int i) {
+	/* looping through array when nothing to carry over */
+	while (i >= 0) {
+		*bar << int(c[i]) - int('0');
+		i--;
+	}
+}
+
+
+std::string add(const std::string& a, const std::string& b) {
+	int i = a.length() - 1;
+	int j = b.length() - 1;
+	if (i < 0) {
+		return b;
+	}
+	else if (j < 0) {
+		return a;
+	}
+	int carry = 0;
+	std::ostringstream bar;
+	/* cycling through both arrays */
+	while (i >= 0 && j >= 0) {
+		int num = int(a[i]) - int('0') + int(b[j]) - int('0') + carry;
+		bar << num % 10;
+		carry = num / 10;
+		i--;
+		j--;
+	}
+	/* cycling through the remaining array (if not of equal length) */
+	if (j >= 0) {
+		carrying_over(&bar, b, &carry, &j);
+		finishing_up(&bar, b, j);
+	}
+	else if (i >= 0) {
+		carrying_over(&bar, a, &carry, &i);
+		finishing_up(&bar, a, i);
+	}
+	if (carry != 0) {
+		bar << carry;
+	}
+
+	std::string ss = bar.str();
+	std::reverse(ss.begin(), ss.end());
+	return ss;
+
+}
