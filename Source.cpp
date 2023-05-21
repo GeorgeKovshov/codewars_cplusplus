@@ -1,109 +1,73 @@
 #include "Header.h"
 
-class mylist {
+class BST {
 public:
 	int value;
-	mylist* next;
-	mylist() {
-		value = 0;
-		next = nullptr;
+	BST* left;
+	BST* right;
+	BST* parent;
+
+	BST(int num) {
+		value = num;
+		left = nullptr;
+		right = nullptr;
+		parent = nullptr;
 	}
-	void print() {
-		cout << value << " ";
-		mylist* tmp = next;
-		while (tmp) {
-			cout << tmp->value << " ";
-			tmp = tmp->next;
-		}
+	BST(int num, BST* pparent) {
+		value = num;
+		left = nullptr;
+		right = nullptr;
+		parent = pparent;
 	}
 
-	void add(int new_value) {
-		mylist* tmp = next;
-		while (tmp->next) {
-			tmp = tmp->next;
-		}
-		mylist* new_m = new mylist;
-		new_m->value = new_value;
-		tmp->next = new_m;
-	}
-	/*
-	~mylist() {
-		mylist* tmp = next;
-		while (tmp) {
-			mylist* tmp2 = new mylist;
-			tmp2 = tmp->next;
-			delete tmp;
-			tmp = tmp2;
-		}
-	}*/
-
-	void sort() {
-		mylist* x = this;
-		while (x) {
-			mylist* y = x->next;
-			while (y) {
-				if (x->value > y->value) {
-					int z = x->value;
-					x->value = y->value;
-					y->value = z;
-				}
-				y = y->next;
+	void add(int num) {
+		if (num < value) {
+			if (left == nullptr) {
+				BST* tmp = new BST(num, this);
+				left = tmp;
 			}
-			x = x->next;
-			
+			else {
+				left->add(num);
+			}
+		}
+		else if (num > value) {
+			if (right == nullptr) {
+				BST* tmp = new BST(num, this);
+				right = tmp;
+			}
+			else {
+				right->add(num);
+			}
 		}
 	}
 
-	
+	void print(int level) {
+		if (right) {
+			right->print(level + 1);
+		}
+		for (int x = 1; x < level; x++) { cout << "   "; }
+		cout <<level<< ": "<< value << " " << endl;
+		if (left) {
+			left->print(level + 1);
+		}	
+	}
+
+
+
 };
 
 
-mylist* reverse_mylist(mylist* previous, mylist* current) {
-	if (current != nullptr) {
-		mylist* tmp = current->next;
-		current->next = previous;
-		reverse_mylist(current, tmp);
-	}
-	else {
-		return previous;
-	}
-}
-
-
 int main(void) {
-	mylist m1;
-	mylist m2, m3, m4, m5;
-	m1.value = 1;
-
-	m2.value = 2;
-	m1.next = &m2;
-
-	m3.value = 3;
-	m2.next = &m3;
-
-	m4.value = 4;
-	m3.next = &m4;
-
-	m5.value = 5;
-	m4.next = &m5;
-
-	m1.add(6);
-	m1.add(60);
-
-	for (int x = 0; x < 20; x++) {
-		m1.add(x * x);
-	}
-
-	//m1.~mylist();
-	//m1.print();
-	//cout << endl;
-	mylist* pm2 = reverse_mylist(nullptr, &m1);
-	pm2->print();
-	cout << endl;
-	pm2->sort();
-	pm2->print();
-	//m1.sort();
-	//m1.print();
+	BST tree(3);
+	//cout << tree.value;
+	tree.add(2);
+	tree.add(1);
+	tree.add(6);
+	tree.add(4);
+	tree.add(0);
+	tree.add(5);
+	//cout << tree.left->left->value;
+	tree.print(1);
 	
 
 }

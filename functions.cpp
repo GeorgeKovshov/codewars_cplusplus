@@ -575,3 +575,208 @@ std::string add(const std::string& a, const std::string& b) {
 	return ss;
 
 }
+
+
+
+
+inline char
+__next_char(std::string::const_reverse_iterator& it, const std::string& a)
+{
+	char result = '\0';
+	if (it != a.rend())
+	{
+		result = *it;
+		++it;
+	}
+	return result;
+}
+/*
+inline char
+__add_char(char a, char b, unsigned short& isdec)
+{
+	static const unsigned short asciioffset = 48;
+	unsigned short              num = ((unsigned short)(a - asciioffset)) +
+		((unsigned short)(b - asciioffset));
+	num += isdec;
+	isdec = num / 10;
+
+	return (char)((num % 10) + asciioffset);
+}
+//
+std::string add(const std::string& a, const std::string& b)
+{
+	std::string                         result;
+	std::string::const_reverse_iterator ait = a.rbegin();
+	std::string::const_reverse_iterator bit = b.rbegin();
+
+	char           ac = __next_char(ait, a);
+	char           bc = __next_char(bit, b);
+	char           cc = '\0';
+	unsigned short isdec = 0;
+
+	while ((ac != '\0') || (bc != '\0'))
+	{
+		cc = __add_char((ac == '\0') ? '0' : ac, (bc == '\0') ? '0' : bc, isdec);
+		result.insert(0, 1, cc);
+
+		ac = __next_char(ait, a);
+		bc = __next_char(bit, b);
+	}
+
+	if (isdec != 0)
+		result.insert(0, 1, '1');
+
+	return result;
+}
+
+
+inline char
+__next_char(std::string::const_reverse_iterator& it, const std::string& a)
+{
+	char result = '\0';
+	if (it != a.rend())
+	{
+		result = *it;
+		++it;
+	}
+	return result;
+}
+//
+inline char
+__add_char(char a, char b, unsigned short& isdec)
+{
+	static const unsigned short asciioffset = 48;
+	unsigned short              num = ((unsigned short)(a - asciioffset)) +
+		((unsigned short)(b - asciioffset));
+	num += isdec;
+	isdec = num / 10;
+
+	return (char)((num % 10) + asciioffset);
+}
+//
+std::string add2(const std::string& a, const std::string& b)
+{
+	std::string                         result;
+	std::string::const_reverse_iterator ait = a.rbegin();
+	std::string::const_reverse_iterator bit = b.rbegin();
+
+	char           ac = __next_char(ait, a);
+	char           bc = __next_char(bit, b);
+	char           cc = '\0';
+	unsigned short isdec = 0;
+
+	while ((ac != '\0') || (bc != '\0'))
+	{
+		cc = __add_char((ac == '\0') ? '0' : ac, (bc == '\0') ? '0' : bc, isdec);
+		result.insert(0, 1, cc);
+
+		ac = __next_char(ait, a);
+		bc = __next_char(bit, b);
+	}
+
+	if (isdec != 0)
+		result.insert(0, 1, '1');
+
+	return result;
+}*/
+
+
+	mylist::mylist() {
+		value = 0;
+		next = nullptr;
+	}
+	void mylist::print() {
+		cout << value << " ";
+		mylist* tmp = next;
+		while (tmp) {
+			cout << tmp->value << " ";
+			tmp = tmp->next;
+		}
+	}
+
+	void mylist::add(int new_value) {
+		mylist* tmp = next;
+		while (tmp->next) {
+			tmp = tmp->next;
+		}
+		mylist* new_m = new mylist;
+		new_m->value = new_value;
+		tmp->next = new_m;
+	}
+	/*
+	~mylist() {
+		mylist* tmp = next;
+		while (tmp) {
+			mylist* tmp2 = new mylist;
+			tmp2 = tmp->next;
+			delete tmp;
+			tmp = tmp2;
+		}
+	}*/
+
+	void mylist::sort() {
+		mylist* x = this;
+		while (x) {
+			mylist* y = x->next;
+			while (y) {
+				if (x->value > y->value) {
+					int z = x->value;
+					x->value = y->value;
+					y->value = z;
+				}
+				y = y->next;
+			}
+			x = x->next;
+
+		}
+	}
+
+
+	mylist* reverse_mylist(mylist* previous, mylist* current) {
+		if (current != nullptr) {
+			mylist* tmp = current->next;
+			current->next = previous;
+			reverse_mylist(current, tmp);
+		}
+		else {
+			return previous;
+		}
+	}
+
+
+
+void working_with_mylists() {
+	mylist m1;
+	mylist m2, m3, m4, m5;
+	m1.value = 1;
+
+	m2.value = 2;
+	m1.next = &m2;
+
+	m3.value = 3;
+	m2.next = &m3;
+
+	m4.value = 4;
+	m3.next = &m4;
+
+	m5.value = 5;
+	m4.next = &m5;
+
+	m1.add(6);
+	m1.add(60);
+
+	for (int x = 0; x < 20; x++) {
+		m1.add(x * x);
+	}
+
+	//m1.~mylist();
+	//m1.print();
+	//cout << endl;
+	mylist* pm2 = reverse_mylist(nullptr, &m1);
+	pm2->print();
+	cout << endl;
+	pm2->sort();
+	pm2->print();
+	//m1.sort();
+	//m1.print();
+}

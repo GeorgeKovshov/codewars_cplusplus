@@ -62,3 +62,24 @@ public:
 void carrying_over(std::ostringstream* bar, const std::string& c, int* carry, int* i);
 void finishing_up(std::ostringstream* bar, const std::string& c, int i);
 std::string add(const std::string& a, const std::string& b);
+
+/*
+inline char
+__next_char(std::string::const_reverse_iterator& it, const std::string& a);
+inline char
+__add_char(char a, char b, unsigned short& isdec);
+std::string add2(const std::string& a, const std::string& b);*/
+
+class mylist {
+public:
+	int value;
+	mylist* next;
+	mylist();
+	void print();
+
+	void add(int new_value);
+	void sort();
+
+
+};
+mylist* reverse_mylist(mylist* previous, mylist* current);
