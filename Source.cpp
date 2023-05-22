@@ -52,6 +52,20 @@ public:
 		}	
 	}
 
+	void inverse() {
+		BST* l = left;
+		left = right;
+		right = l;
+		if (left) {
+			left->inverse();
+		}
+		if (right) {
+			right->inverse();
+		}
+		
+		
+	}
+
 
 
 };
@@ -67,6 +81,9 @@ int main(void) {
 	tree.add(0);
 	tree.add(5);
 	//cout << tree.left->left->value;
+	tree.print(1);
+	cout << endl << endl << endl;
+	tree.inverse();
 	tree.print(1);
 	
 
