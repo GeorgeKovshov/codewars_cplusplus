@@ -254,6 +254,16 @@ public:
 			if (left && !right) {
 				right = parent;
 				parent = (parent->parent) ? parent->parent : nullptr;
+				if (parent) {
+					if (parent->left) {
+						if (parent->left->value == right->value) {
+							parent->left = this;
+						}
+						else {
+							parent->right = this;
+						}
+					}
+				}
 				right->parent = this;
 				right->left = nullptr;
 			}
@@ -266,19 +276,64 @@ public:
 				    2
 			*/
 			else if (!left && right) {
-				
+				BST* three = parent;
+				BST* one = this;
+				BST* two = right;
+				if (two->right) {
+					three->left = two->right;
+					two->right->parent = three;
+				}
+				else {
+					three->left = nullptr;
+				}
+				two->right = three;
+				two->parent = (three->parent) ? three->parent : nullptr;
+				three->parent = two;
+
+				if (two->left) {
+					one->right = two->left;
+					two->left->parent = one;
+				}
+				else {
+					one->right = nullptr;
+				}
+				two->left = one;
+				one->parent = two;
 
 			}
 		}
 		else if (!parent->left && parent->right) {
 			/*
-					0
+					1
 				     \
-				     0
+				     3
 				    /
-				   0
+				   2
 			*/
 			if (left && !right) {
+				BST* one = parent;
+				BST* three = this;
+				BST* two = left;
+				if (two->left) {
+					one->right = two->left;
+					two->left->parent = one;
+				}
+				else {
+					one->right = nullptr;
+				}
+				two->left = one;
+				two->parent = (one->parent) ? one->parent : nullptr;
+				one->parent = two;
+
+				if (two->right) {
+					three->left = two->right;
+					two->right->parent = three;
+				}
+				else {
+					three->left = nullptr;
+				}
+				two->right = three;
+				three->parent = two;
 			}
 			/*
 					0
@@ -290,25 +345,38 @@ public:
 			else if (right && !left) {
 				left = parent;
 				parent = (parent->parent) ? parent->parent : nullptr;
+				if (parent) {
+					if (parent->left) {
+						if (parent->left->value == right->value) {
+							parent->left = this;
+						}
+						else {
+							parent->right = this;
+						}
+					}
+				}
 				left->parent = this;
 				left->right = nullptr;
 
 			}
 		}
 
-		cout << value << " ";
+		///cout << value << " ";
 
 
 	}
 
 
-	void rebalance() {
+	void rebalance(int count) {
+		if (count <= 0) {
+			return;
+		}
 		this->turn();
 		if (left) {
-			left->rebalance();
+			left->rebalance(count - 1);
 		}
 		if (right) {
-			right->rebalance();
+			right->rebalance(count - 1);
 		}
 	}
 
@@ -335,6 +403,9 @@ int main(void) {
 	tree.show();
 	//tree.rebalance();
 	cout << endl << endl << endl;
+
+	tree.rebalance(6);
+	tree.show();
 	
 	//////tree.delete_val(3);
 	//tree.show();
