@@ -300,6 +300,17 @@ public:
 				two->left = one;
 				one->parent = two;
 
+				if (two->parent) {
+					if (two->parent->left) {
+						if (two->parent->left->value == three->value) {
+							two->parent->left = two;
+						}
+						else {
+							two->parent->right = two;
+						}
+					}
+				}
+
 			}
 		}
 		else if (!parent->left && parent->right) {
@@ -334,6 +345,17 @@ public:
 				}
 				two->right = three;
 				three->parent = two;
+
+				if (two->parent) {
+					if (two->parent->left) {
+						if (two->parent->left->value == three->value) {
+							two->parent->left = two;
+						}
+						else {
+							two->parent->right = two;
+						}
+					}
+				}
 			}
 			/*
 					0
@@ -394,9 +416,9 @@ int main(void) {
 	tree.add(4);
 	tree.add(0);
 	tree.add(5);
-	tree.add(10);
+	tree.add(7);
+	tree.add(9);
 	tree.add(8);
-	tree.add(11);
 	tree.add(-2);
 	tree.add(-3);
 	//cout << tree.left->left->value;
