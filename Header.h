@@ -3,7 +3,9 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <sstream>
+#include <stack>
 using namespace std;
 
 int rec_sum(int num);
@@ -83,3 +85,18 @@ public:
 
 };
 mylist* reverse_mylist(mylist* previous, mylist* current);
+
+struct ListNode {
+	int val;
+	ListNode* next;
+	ListNode() : val(0), next(nullptr) {}
+	ListNode(int x) : val(x), next(nullptr) {}
+	ListNode(int x, ListNode* next) : val(x), next(next) {}
+	void add(int x);
+	void show();
+
+};
+
+bool isPalindrome2(ListNode* head);
+bool isPalindromeOld(ListNode* head);
+bool isPalindrome(ListNode* node);

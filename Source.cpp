@@ -1,59 +1,62 @@
 #include "Header.h"
-#include <stack>
 
-bool isPalindrome(ListNode* node) {
-	stack<int> my_stack;
-	ListNode* node_copy = node;
-	int length = 0;
-	while (node_copy) {
-		node_copy = node_copy->next;
-		length++;
+
+
+int robOld(vector<int>& nums) {
+	if (nums.empty()) {
+		return 0;
 	}
-	bool result = true;
-	bool middle = (length % 2 != 0) ? true : false;
-	cout << "length is: " << length;
-	length = length / 2;
-	cout << ", half length is: " << length << endl;
-	while (node) {
-		cout << "cur. length: " << length << ", node: " << node->val << endl;
-		if (length > 0) {
-			my_stack.push(node->val);
+	int sum1 = 0;
+	int sum2 = 0;
+	int odd = 1;
+	for (int x : nums) {
+		if (odd == 1) {
+			sum1 += x;
 		}
-		else if (length < 0 and !my_stack.empty()) {
-			if (my_stack.top() != node->val) {
-				result = false;
-			}
-			my_stack.pop();	
-		}
-		else if (length == 0) {
-			if (!middle) {
-				my_stack.push(node->val);
-			}
-			
-			
-		}
+
 		else {
-			result = false;
+			sum2 += x;
 		}
-		length--;
-		node = node->next;
+		odd *= -1;
+	}
+	return (sum1 > sum2) ? sum1 : sum2;
+
+}
+
+int rec_rob(vector<int>& nums, int ind, int count) {
+	if (count < 0) {
+		return 1;
+	}
+	else if (ind == 0) {
+		return nums[ind];
+	}
+	else if (ind < 0) {
+		return 0;
 	}
 
-	return result;
+	return max(nums[ind] + rec_rob(nums, ind - 2, count-1), rec_rob(nums, ind - 1, count-1));
+	
+
+}
+
+
+
+
+int rob(vector<int>& nums) {
+
+	int length = nums.size() - 1;
+
+	return rec_rob(nums, length, 6);
+
 }
 
 
 
 int main(void) {
+	vector<int> nums = { 2,7,9,3,1,4 };
 
-	ListNode node(1);
-	node.add(2);
-	node.add(2);
-	node.add(2);
-	node.add(1);
-
-
-	cout << endl << isPalindrome(&node);
+	cout << rob(nums) << endl;
+	
 
 	
 }
