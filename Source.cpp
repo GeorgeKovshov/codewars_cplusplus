@@ -39,21 +39,86 @@ int rec_rob(vector<int>& nums, int ind, int count) {
 
 }
 
+//{ 4,1,2,7,5,3,1,0 }
 
+void backtrack(vector<int>& nums, stack<bool>& rights, int* sum, int i) {
+	int sum_right = nums[i] + nums[i - 2];
+	*sum += nums[i];
+	int sum_left = nums[i - 3] + nums[i - 1];
+	int j = i - 4;
+	int make_switch = true;
+	while (rights.top() && j >= 1) {
+		sum_left += nums[j - 1];
+		sum_right += nums[j];
+		if (nums[j] >= nums[j+1] && nums[j] >= nums[j+2] && nums[j] >= nums[j-1] + nums[j+1]) {
+			if (sum_left - nums[j - 1] - nums[j + 1] > sum_right - nums[j]) {
+				*sum = *sum + nums[j] - nums[j - 1] - nums[j + 1];
+			}
+			else {
+				//*sum += nums[i];
+				rights.push(true);
+				make_switch = false;
+			}
+			
+			break;
+		}
+		else if (sum_right >= sum_left) {
+			make_switch = false;
+			break;
+		}
+		rights.pop();
+		j -= 2;
+	}
+	if (make_switch) {
+		*sum = *sum - sum_right + sum_left;
+		rights.push(false);
+	}
+	else {
+		rights.push(true);
+	}
+}
 
 
 int rob(vector<int>& nums) {
+	int length = nums.size();
+	if (length == 0) {
+		return 0;
+	}
+	else if (length % 2 != 0) {
+		nums.push_back(0);
+		length++;
+	}
+	stack<bool> rights;
+	rights.push(false);
+	int sum = 0;
+	for (int i = 1; i < length; i+=2) {
+		if (nums[i] > nums[i-1]) {
+			sum += nums[i];
+			rights.push(true);
+		}
+		else if ((rights.top()) && 
+				(nums[i - 3] + nums[i - 1] > nums[i] + nums[i - 2]))
+		{
+			rights.pop();
+			backtrack(nums, rights, &sum, i);
+		}
+		else if (!rights.top()){
 
-	int length = nums.size() - 1;
-
-	return rec_rob(nums, length, 6);
-
+			sum += nums[i-1];
+			rights.push(false);
+		}
+		else {
+			sum += nums[i];
+			rights.push(true);
+		}
+	}
+	return sum;
 }
 
 
 
 int main(void) {
-	vector<int> nums = { 2,7,9,3,1,4 };
+	vector<int> nums = { 1,1,3,6,7,10,7,1,8,5,9,1,4,4,3 }; //6,3,10,8,2,10,3,5,10,5,3 };// 4,1,2,7,5,3,1 }; // 1,3,1, 3, 100};
 
 	cout << rob(nums) << endl;
 	
