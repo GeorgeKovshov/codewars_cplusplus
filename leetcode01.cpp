@@ -249,3 +249,22 @@ void palindroming() {
 	node.add(1);
 	cout << endl << isPalindrome(&node);
 }
+
+
+ListNode* middleNode(ListNode* head) {
+	ListNode* fast = head;
+	ListNode* slow = head;
+	while (fast) {
+
+		fast = fast->next;
+		if (fast) {
+			fast = fast->next;
+		}
+		else {
+			break;
+		}
+
+		slow = slow->next;
+	}
+	return slow;
+}
