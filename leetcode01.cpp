@@ -268,3 +268,53 @@ ListNode* middleNode(ListNode* head) {
 	}
 	return slow;
 }
+
+
+vector<string> fizzBuzz(int n) {
+	vector<string> result;
+	for (int i = 1; i <= n; i++) {
+
+
+		if (i % 3 == 0 && i % 5 == 0) {
+			result.push_back("FizzBuzz");
+		}
+		else if (i % 3 == 0) {
+			result.push_back("Fizz");
+		}
+		else if (i % 5 == 0) {
+			result.push_back("Buzz");
+		}
+		else {
+			result.push_back(to_string(i));
+		}
+	}
+	return result;
+}
+
+vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
+	int width = mat[0].size();
+	int depth = mat.size();
+	int j = 0;
+	vector<int> result;
+
+	while (k > 0 && j < width) {
+		for (int i = 0; i < depth && k>0; i++)
+			if (mat[i][j] == 0) {
+				if (std::find(result.begin(), result.end(), i) == result.end()) {
+					k--;
+					result.push_back(i);
+				}
+			}
+		j++;
+	}
+	if (k > 0) {
+		for (int i = 0; i < depth && k>0; i++) {
+			if (std::find(result.begin(), result.end(), i) == result.end()) {
+				k--;
+				result.push_back(i);
+			}
+		}
+	}
+
+	return result;
+}
