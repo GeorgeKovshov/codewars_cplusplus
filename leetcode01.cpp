@@ -318,3 +318,30 @@ vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
 
 	return result;
 }
+
+int numberOfSteps(int num) {
+	int count = 0;
+	while (num > 0) {
+		if (num % 2 == 0) {
+			num = num / 2;
+		}
+		else {
+			num--;
+		}
+		count++;
+	}
+
+	return count;
+}
+
+int maximumWealth(vector<vector<int>>& accounts) {
+	int max_sum = 0;
+	for (vector<int> x : accounts) {
+		int sum = 0;
+		for (int y : x) {
+			sum += y;
+		}
+		max_sum = (sum > max_sum) ? sum : max_sum;
+	}
+	return max_sum;
+}

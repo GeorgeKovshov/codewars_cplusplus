@@ -100,3 +100,10 @@ struct ListNode {
 bool isPalindrome2(ListNode* head);
 bool isPalindromeOld(ListNode* head);
 bool isPalindrome(ListNode* node);
+
+void palindroming();
+vector<int> kWeakestRows(vector<vector<int>>& mat, int k);
+vector<string> fizzBuzz(int n);
+int numberOfSteps(int num);
+ListNode* middleNode(ListNode* head);
+int maximumWealth(vector<vector<int>>& accounts);
