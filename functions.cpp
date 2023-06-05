@@ -780,3 +780,36 @@ void working_with_mylists() {
 	//m1.sort();
 	//m1.print();
 }
+
+
+void list_of_letters(string s, vector<char>& letters) {
+	for (char x : s) {
+		bool insertion = true;
+		int counts = 0;
+		for (char y : letters) {
+			if (int(x) == int(y)) {
+				insertion = false;
+
+				break;
+			}
+			else if (int(x) < int(y)) {
+				letters.insert(letters.begin() + counts, x);
+				insertion = false;
+
+				break;
+			}
+			counts++;
+		}
+		if (insertion) {
+			letters.push_back(x);
+		}
+	}
+}
+
+bool made_of_same_letters(string ransomNote, string magazine) {
+	vector<char> letters_magazine;
+	vector<char> letters_note;
+	list_of_letters(magazine, letters_magazine);
+	list_of_letters(ransomNote, letters_note);
+	return letters_magazine == letters_note;
+}

@@ -116,11 +116,40 @@ int rob(vector<int>& nums) {
 }
 
 
+void list_of_letters(string s, vector<char>& letters) {
+	for (char x : s) {
+		bool insertion = true;
+		int counts = 0;
+		for (char y : letters) {
+			 if (int(x) <= int(y)) {
+				letters.insert(letters.begin() + counts, x);
+				insertion = false;
+
+				break;
+			}
+			counts++;
+		}
+		if (insertion) {
+			letters.push_back(x);
+		}
+	}
+}
+
+
+bool canConstruct(string ransomNote, string magazine) {
+	vector<char> letters_magazine;
+	vector<char> letters_note;
+	list_of_letters(magazine, letters_magazine);
+	list_of_letters(ransomNote, letters_note);
+	return letters_magazine==letters_note;
+}
+
 
 int main(void) {
-	vector<int> nums = { 1,1,3,6,7,10,7,1,8,5,9,1,4,4,3 }; //6,3,10,8,2,10,3,5,10,5,3 };// 4,1,2,7,5,3,1 }; // 1,3,1, 3, 100};
+	/*vector<int> nums = {1,1,3,6,7,10,7,1,8,5,9,1,4,4,3}; //6,3,10,8,2,10,3,5,10,5,3 };// 4,1,2,7,5,3,1 }; // 1,3,1, 3, 100};
 
-	cout << rob(nums) << endl;
+	cout << rob(nums) << endl;*/
+	cout<<endl<<canConstruct("allbyback", "lybackk");
 	
 
 	

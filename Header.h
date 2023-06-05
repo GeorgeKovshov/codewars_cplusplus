@@ -101,6 +101,9 @@ bool isPalindrome2(ListNode* head);
 bool isPalindromeOld(ListNode* head);
 bool isPalindrome(ListNode* node);
 
+void list_of_letters(string s, vector<char>& letters);
+bool made_of_same_letters(string ransomNote, string magazine);
+
 void palindroming();
 vector<int> kWeakestRows(vector<vector<int>>& mat, int k);
 vector<string> fizzBuzz(int n);
