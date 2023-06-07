@@ -345,3 +345,17 @@ int maximumWealth(vector<vector<int>>& accounts) {
 	}
 	return max_sum;
 }
+
+vector<int> twoSum(vector<int>& nums, int target) {
+	unordered_map<int, int> m;
+	for (int i = 0; i < nums.size(); i++) {
+		if (m.find(target - nums[i]) != m.end()) {
+			return { m[target - nums[i]], i };
+		}
+		else {
+			m.insert({ nums[i], i });
+		}
+
+	}
+	return { 0,0 };
+}

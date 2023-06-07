@@ -110,3 +110,5 @@ vector<string> fizzBuzz(int n);
 int numberOfSteps(int num);
 ListNode* middleNode(ListNode* head);
 int maximumWealth(vector<vector<int>>& accounts);
+
+vector<int> twoSum(vector<int>& nums, int target);
