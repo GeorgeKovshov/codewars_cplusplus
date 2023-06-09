@@ -359,3 +359,45 @@ vector<int> twoSum(vector<int>& nums, int target) {
 	}
 	return { 0,0 };
 }
+
+void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+	if (nums1.empty()) {
+		nums1 = nums2;
+		return;
+	}
+	else if (nums2.empty()) {
+		return;
+	}
+	int i = 0;
+	int j = 0;
+	int val = nums2[0];
+	while (i < m) {
+		if (nums1[i] <= val) {
+			i++;
+		}
+		else {
+			int tmp = nums1[i];
+			nums1[i] = nums2[0];
+			nums2[0] = tmp;
+			i++;
+			while (j < n - 1) {
+				if (nums2[j] > nums2[j + 1]) {
+					int tmp = nums2[j];
+					nums2[j] = nums2[j + 1];
+					nums2[j + 1] = tmp;
+					j++;
+				}
+				else {
+					break;
+				}
+			}
+			val = nums2[0];
+			j = 0;
+		}
+	}
+	while (j < n) {
+		nums1[i] = nums2[j];
+		i++;
+		j++;
+	}
+}
