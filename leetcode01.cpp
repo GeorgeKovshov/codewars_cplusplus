@@ -401,3 +401,30 @@ void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
 		j++;
 	}
 }
+
+int removeElement(vector<int>& nums, int val) {
+	int i = 0;
+	int j = 0;
+	int length = nums.size();
+	while (i < length) {
+
+		if (nums[i] == val) {
+			i++;
+		}
+		if (i < length) {
+			nums[j] = nums[i];
+			if (nums[j] == val) {
+				j--;
+			}
+		}
+		else {
+			break;
+		}
+
+		i++;
+		j++;
+	}
+	return j;
+
+}
+
