@@ -428,3 +428,32 @@ int removeElement(vector<int>& nums, int val) {
 
 }
 
+bool canConstruct1(string ransomNote, string magazine) {
+	unordered_map<char, int> letters;
+	for (char x : magazine) {
+		if (letters.find(x) != letters.end()) {
+			letters[x]++;
+		}
+		else {
+			letters.insert({ x, 1 });
+		}
+	}
+	for (auto x : letters) {
+		cout << x.first << " " << x.second << endl;
+	}
+	bool result = true;
+	for (char y : ransomNote) {
+		if (letters.find(y) == letters.end()) {
+			result = false;
+			break;
+		}
+		else if (letters[y] <= 0) {
+			result = false;
+			break;
+		}
+		else {
+			letters[y]--;
+		}
+	}
+	return result;
+}

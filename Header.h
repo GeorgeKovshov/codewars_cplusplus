@@ -115,3 +115,4 @@ vector<int> twoSum(vector<int>& nums, int target);
 void merge(vector<int>& nums1, int m, vector<int>& nums2, int n);
 
 int removeElement(vector<int>& nums, int val);
+bool canConstruct1(string ransomNote, string magazine);
