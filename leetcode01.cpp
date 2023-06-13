@@ -457,3 +457,19 @@ bool canConstruct1(string ransomNote, string magazine) {
 	}
 	return result;
 }
+
+int removeDuplicates(vector<int>& nums) {
+	int previous = -101;
+	int count = 0;
+	vector<int> nums2;
+	for (int i = 0; i < nums.size(); i++) {
+		if (nums[i] != previous) {
+			nums2.push_back(nums[i]);
+			count++;
+		}
+		previous = nums[i];
+	}
+	nums = nums2;
+	return count;
+
+}
