@@ -473,3 +473,21 @@ int removeDuplicates(vector<int>& nums) {
 	return count;
 
 }
+int majorityElement(vector<int>& nums) {
+	unordered_map<int, int> list;
+	int length = nums.size();
+	for (int x : nums) {
+		if (list.find(x) != list.end()) {
+			list[x]++;
+			if (list[x] >= length / 2 + 1) {
+				return x;
+			}
+		}
+		else {
+			list.insert({ x,1 });
+		}
+
+	}
+	return 1;
+
+}
