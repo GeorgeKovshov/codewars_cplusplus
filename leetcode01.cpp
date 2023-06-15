@@ -491,3 +491,41 @@ int majorityElement(vector<int>& nums) {
 	return 1;
 
 }
+
+int removeDuplicates2(vector<int>& nums) {
+	int count = 1;
+	int j = -1;
+	int k = nums.size();
+	int previous = -100001;
+	int length = k;
+	for (int i = 0; i < length; i++) {
+		if (nums[i] == previous) {
+			count++;
+			if (count > 2) {
+				while (i < length) {
+					if (nums[i] == previous) {
+						i++;
+						k--;
+					}
+					else {
+						break;
+					}
+				}
+				if (i >= length) {
+					break;
+				}
+				previous = nums[i];
+				count = 1;
+			}
+		}
+		else {
+			count = 1;
+			previous = nums[i];
+		}
+		j++;
+		nums[j] = nums[i];
+
+
+	}
+	return k;
+}

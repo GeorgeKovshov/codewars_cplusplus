@@ -119,3 +119,4 @@ bool canConstruct1(string ransomNote, string magazine);
 int removeDuplicates(vector<int>& nums);
 
 int majorityElement(vector<int>& nums);
+int removeDuplicates2(vector<int>& nums);
