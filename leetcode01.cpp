@@ -529,3 +529,34 @@ int removeDuplicates2(vector<int>& nums) {
 	}
 	return k;
 }
+
+void rotate(vector<int>& nums, int k) {
+	int length = nums.size();
+	if (nums.empty()) {
+		return;
+	}
+	else if (length == 1) {
+		return;
+	}
+	while (k >= length) {
+		k -= length;
+	}
+	vector<int> nums2 = nums;
+	for (int i = 0; i < length; i++) {
+		if (i + k < length) {
+			nums2[i + k] = nums[i];
+		}
+		else {
+			nums2[i + k - length] = nums[i];
+		}
+	}
+	nums = nums2;
+
+}
+
+void rotate2(vector<int>& nums, int k) {
+	k %= nums.size();
+	reverse(nums.begin(), nums.end());
+	reverse(nums.begin(), nums.begin() + k);
+	reverse(nums.begin() + k, nums.end());
+}

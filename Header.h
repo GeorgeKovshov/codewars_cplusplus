@@ -120,3 +120,6 @@ int removeDuplicates(vector<int>& nums);
 
 int majorityElement(vector<int>& nums);
 int removeDuplicates2(vector<int>& nums);
+
+void rotate(vector<int>& nums, int k);
+void rotate2(vector<int>& nums, int k);
