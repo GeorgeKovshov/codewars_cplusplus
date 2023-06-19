@@ -123,3 +123,10 @@ int removeDuplicates2(vector<int>& nums);
 
 void rotate(vector<int>& nums, int k);
 void rotate2(vector<int>& nums, int k);
+
+bool canJump(vector<int>& nums);
+bool canJump2(vector<int>& nums);
+
+void inputRoman(int m, char c, stringstream* oss);
+void smallRoman(int* num, char c1, char c2, char c3, stringstream* oss, int multiplier);
+string intToRoman(int num);

@@ -560,3 +560,111 @@ void rotate2(vector<int>& nums, int k) {
 	reverse(nums.begin(), nums.begin() + k);
 	reverse(nums.begin() + k, nums.end());
 }
+
+bool canJump(vector<int>& nums) {
+	int length = nums.size();
+	if (nums.empty()) {
+		return false;
+	}
+	else if (length == 1) {
+		return true;
+	}
+	else if (nums[0] == 0) {
+		return false;
+	}
+	stack<int> jumps;
+	jumps.push(0);
+	jumps.push(0);
+	int i = 0;
+	while (i < length - 1) {
+		if (nums[i] == 0) {
+			int previous = jumps.top();
+			jumps.pop();
+			i -= previous;
+			if (previous == 1) {
+				int previous = jumps.top();
+				jumps.pop();
+				i -= previous;
+				nums[i]--;
+			}
+			else {
+				i += previous - 1;
+				jumps.push(previous - 1);
+			}
+
+		}
+		else {
+			jumps.push(nums[i]);
+			i = min(nums[i] + i, length - 1);
+			//jumps.push(nums[i]);
+		}
+		if (nums[0] <= 0) {
+			break;
+		}
+	}
+	if (i >= length - 1) {
+		return true;
+	}
+	else {
+		return false;
+	}
+
+}
+
+bool canJump2(vector<int>& nums) {
+	int n = nums.size(), maxv = nums[0];
+	for (int i = 0; i < nums.size(); ++i) {
+		if (i > maxv) {
+			return false;
+		}
+		maxv = max(maxv, i + nums[i]);
+	}
+	return true;
+}
+
+
+void inputRoman(int m, char c, stringstream* oss) {
+	while (m > 0) {
+		*oss << c;
+		m--;
+	}
+}
+
+void smallRoman(int* num, char c1, char c2, char c3, stringstream* oss, int multiplier) {
+	/*c1 - smallest, c3 - biggest, multiplier - 10;100;1000*/
+	if (*num >= 9 * multiplier) {
+		*oss << c1 << c3;
+		*num -= 9 * multiplier;
+	}
+	else if (*num >= 5 * multiplier) {
+		*oss << c2;
+		*num -= 5 * multiplier;
+	}
+	else if (*num >= 4 * multiplier) {
+		*oss << c1 << c2;
+		*num -= 4 * multiplier;
+	}
+}
+
+string intToRoman(int num) {
+	stringstream oss;
+	// target X:  XX__
+	int count = num / 1000;
+	num = num % 1000;
+	inputRoman(count, 'M', &oss);
+	smallRoman(&num, 'C', 'D', 'M', &oss, 100);
+	// _XX_
+	count = num / 100;
+	num = num % 100;
+	inputRoman(count, 'C', &oss);
+	smallRoman(&num, 'X', 'L', 'C', &oss, 10);
+	// __XX
+	count = num / 10;
+	num = num % 10;
+	inputRoman(count, 'X', &oss);
+	smallRoman(&num, 'I', 'V', 'X', &oss, 1);
+	// ___X
+	inputRoman(num, 'I', &oss);
+
+	return oss.str();
+}
