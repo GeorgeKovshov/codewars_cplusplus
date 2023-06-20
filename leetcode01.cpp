@@ -668,3 +668,131 @@ string intToRoman(int num) {
 
 	return oss.str();
 }
+
+string reverseWords(string s) {
+	stack<string> stac;
+	string tmp;
+	stringstream ss;
+	int i = 0;
+	while (s[i] == ' ') {
+		i++;
+	}
+	int j = i;
+	while (i < s.size() - 1) {
+		i = s.find(' ', i + 1);
+		tmp = s.substr(j, i - j);
+		cout << i << ": " << tmp << endl;
+		stac.push(tmp);
+		j = i + 1;
+	}
+	while (!stac.empty()) {
+		if (!stac.top().empty()) {
+			ss << stac.top() << " ";
+		}
+
+		stac.pop();
+	}
+
+	tmp = ss.str();
+	return tmp.substr(0, tmp.size() - 1);
+}
+
+string reverseWords2(string s) {
+	int n = s.size();
+	int i = 0;
+	string ans = "";
+
+	while (i < n)
+	{
+		while (i < n and s[i] == ' ')
+			i++;
+		if (i >= n)
+			break;
+		int j = i + 1;
+		while (j < n and s[j] != ' ')
+			j++;
+		string add = s.substr(i, j - i);
+		if (ans == "")
+			ans = add;
+		else
+			ans = add + " " + ans;
+		i = j + 1;
+	}
+	return ans;
+}
+
+string reverseWords3(string s) {
+	vector<string> words;
+	stringstream ss(s);
+	string tmp;
+	while (ss >> tmp)
+		words.push_back(tmp);
+
+	string ans;
+	for (int i = words.size() - 1; i >= 0; --i) {
+		if (i != words.size() - 1) ans += " ";
+		ans += words[i];
+	}
+	return ans;
+}
+
+string reverseWords4(string s) {
+	reverse(s.begin(), s.end());
+	int l = 0, r = 0, i = 0, n = s.size();
+	while (i < n) {
+		while (i < n && s[i] != ' ')
+			s[r++] = s[i++];
+
+		if (l < r) { // if we can find a non-empty word then
+			reverse(s.begin() + l, s.begin() + r); // reverse current word
+			if (r == n) break;
+			s[r++] = ' '; // set empty space
+			l = r;
+		}
+		++i; // now i == n or s[i] == ' ', so we skip that character!
+	}
+	if (r > 0 && s[r - 1] == ' ') --r; // skip last empty character if have
+	s.resize(r);
+	return s;
+}
+
+int maxProfit(vector<int>& prices) {
+	int min = 10001;
+	int result = 0;
+	for (int x : prices) {
+		min = (x < min) ? x : min;
+		if (min != 10001 && x - min > result) {
+			result = x - min;
+		}
+	}
+	return result;
+}
+
+int maxProfitFast(vector<int>& prices) {
+	int profit = 0;
+	int mini = prices[0];
+	for (auto it : prices) {
+		mini = min(it, mini);
+		profit = max(profit, it - mini);
+	}
+	return profit;
+}
+
+int maxProfitSlow(vector<int>& prices) {
+	int left = 0;
+	int right = 1;
+	int max_profit = 0;
+	int currentProfit = 0;
+	while (right < prices.size()) {
+		currentProfit = prices[right] - prices[left];
+		if (prices[left] < prices[right]) {
+			max_profit = max(currentProfit, max_profit);
+		}
+		else {
+			left = right;
+		}
+		right++;
+	}
+	return max_profit;
+
+}

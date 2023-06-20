@@ -130,3 +130,12 @@ bool canJump2(vector<int>& nums);
 void inputRoman(int m, char c, stringstream* oss);
 void smallRoman(int* num, char c1, char c2, char c3, stringstream* oss, int multiplier);
 string intToRoman(int num);
+
+string reverseWords(string s);
+string reverseWords2(string s);
+string reverseWords3(string s);
+string reverseWords4(string s);
+
+int maxProfit(vector<int>& prices);
+int maxProfitFast(vector<int>& prices);
+int maxProfitSlow(vector<int>& prices);
