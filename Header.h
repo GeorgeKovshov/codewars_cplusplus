@@ -139,3 +139,10 @@ string reverseWords4(string s);
 int maxProfit(vector<int>& prices);
 int maxProfitFast(vector<int>& prices);
 int maxProfitSlow(vector<int>& prices);
+int maxProfit2(vector<int>& prices);
+
+int jump(vector<int>& nums);
+bool isSubsequence(string s, string t);
+bool isSubsequence2(string s, string t);
+vector<int> twoSum3(vector<int>& numbers, int target);
+int maxArea(vector<int>& height);

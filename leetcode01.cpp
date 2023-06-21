@@ -796,3 +796,125 @@ int maxProfitSlow(vector<int>& prices) {
 	return max_profit;
 
 }
+
+
+int maxProfit2(vector<int>& prices) {
+	int profitOld = 0;
+	int max_profit = 0;
+	int miniOld = prices[0];
+	int miniNew = INT_MAX;
+	for (int i = 1; i < prices.size(); i++) {
+		if (prices[i] <= miniOld) {
+			max_profit += max(profitOld, 0);
+			miniOld = prices[i];
+			miniNew = INT_MAX;
+			profitOld = 0;
+		}
+		else if (miniNew != INT_MAX && prices[i] - miniNew + profitOld > prices[i] - miniOld) {
+			max_profit += max(profitOld, 0);
+			miniOld = min(miniNew, prices[i]);
+			profitOld = prices[i] - miniNew;
+			miniNew = INT_MAX;
+		}
+		else {
+			if (prices[i] - miniOld > profitOld) {
+				profitOld = prices[i] - miniOld;
+			}
+			else {
+				miniNew = min(miniNew, prices[i]);
+			}
+		}
+	}
+	return max_profit + max(profitOld, 0);
+}
+
+
+
+int jump(vector<int>& nums) {
+	int length = nums.size();
+	if (nums.empty() || length == 1) {
+		return 0;
+	}
+	else if (nums[0] >= length - 1) {
+		return 1;
+	}
+	int count = 0;
+	int i = 0;
+
+	pair<int, int> maxx = { 0,0 };
+	int z;
+	while (i < length - 1) {
+		count++;
+		maxx = { 0,0 };
+		z = -1;
+		for (int j = nums[i]; j > 0; j--) {
+			if (j + i >= length - 1) {
+				i += j;
+				break;
+			}
+			else if (nums[j + i] - z++ > maxx.second) {
+				maxx = { j, nums[j + i] - z };
+			}
+		}
+		if (maxx.second != 0) {
+			i += maxx.first;
+		}
+		else {
+			break;
+		}
+
+	}
+	return count;
+}
+
+bool isSubsequence(string s, string t) {
+	int i = 0;
+	int length = t.size();
+	for (char c : s) {
+
+		while (i < length && t[i] != c) {
+			i++;
+		}
+		if (i >= length) {
+			return false;
+		}
+		i++;
+
+	}
+	return true;
+}
+
+bool isSubsequence2(string s, string t) {
+
+	if (s.size() == 0) {
+		return true;
+	}
+
+	int count = 0;
+	for (int i = 0; i < t.size(); i++) {
+		if (s[count] == t[i]) {
+			count++;
+		}
+	}
+
+	return count == s.size();
+}
+
+
+vector<int> twoSum3(vector<int>& numbers, int target) {
+	int i = 0;
+	int j = numbers.size() - 1;
+	while (i < j) {
+		int sum = numbers[i] + numbers[j];
+		if (sum > target) {
+			j--;
+		}
+		if (sum < target) {
+			i++;
+		}
+		else if (sum == target) {
+			return { i, j };
+		}
+	}
+	return { 0,0 };
+}
