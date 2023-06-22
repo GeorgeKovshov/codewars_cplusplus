@@ -146,3 +146,8 @@ bool isSubsequence(string s, string t);
 bool isSubsequence2(string s, string t);
 vector<int> twoSum3(vector<int>& numbers, int target);
 int maxArea(vector<int>& height);
+int lengthOfLastWord(string s);
+
+//sliding window
+int minSubArrayLen(int target, vector<int>& nums);
+int lengthOfLongestSubstring(string s);

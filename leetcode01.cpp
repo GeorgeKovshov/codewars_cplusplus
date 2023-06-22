@@ -918,3 +918,112 @@ vector<int> twoSum3(vector<int>& numbers, int target) {
 	}
 	return { 0,0 };
 }
+
+int maxArea(vector<int>& height) {
+	int left = 0, right = height.size() - 1, maxx = 0, water;
+	while (left < right) {
+		water = max(height[left], height[right]) * (right - left);
+		if (water > maxx) {
+			maxx = water;
+		}
+		if (height[left] < height[right]) {
+			left++;
+		}
+		else {
+			right++;
+		}
+	}
+	return maxx;
+}
+
+
+int lengthOfLastWord(string s) {
+	int i = s.size() - 1;
+	int spaces = 0;
+	if (i == 0) {
+		return !(s[0] == ' ');
+	}
+	while (i > 0) {
+		if (s[i] != ' ') {
+			break;
+
+		}
+		i--;
+		spaces++;
+	}
+	int j = 0;
+	while (j < i && s[j] == ' ') {
+		j++;
+	}
+	while (i >= j) {
+
+		if (s[i] == ' ') {
+			return s.size() - 1 - spaces - i;
+		}
+		else if (i == j) {
+			return s.size() - spaces - i;
+		}
+		i--;
+	}
+	return 0;
+}
+
+int minSubArrayLen(int target, vector<int>& nums) {
+	if (nums.empty()) {
+		return 0;
+	}
+	else if (nums.size() == 1) {
+		return nums[0] >= target;
+	}
+	int i = 0, sum = 0;
+	while (sum < target) {
+		if (i >= nums.size()) {
+			return 0;
+		}
+		sum += nums[i];
+		i++;
+	}
+	int window = i;
+	while (sum - nums[i - window] >= target) {
+
+		sum -= nums[i - window];
+		window--;
+	}
+	while (i < nums.size()) {
+		sum = sum + nums[i] - nums[i - window];
+		while (sum - nums[i - window + 1] >= target) {
+			window--;
+			sum -= nums[i - window];
+
+		}
+		i++;
+	}
+	return window;
+
+}
+
+int lengthOfLongestSubstring(string s) {
+	if (s.size() == 0) {
+		return 0;
+	}
+	else if (s.size() == 1) {
+		return 1;
+	}
+	unordered_map<char, int> letters;
+	int i = 0;
+	int count = 0;
+	int max_count = 0;
+	while (i < s.size()) {
+		if (letters.find(s[i]) == letters.end() || letters[s[i]] == 0) {
+			max_count = max(++count, max_count);
+		}
+		else {
+			while (s[i - count] != s[i]) {
+				letters[s[i - count--]] = 0;
+			}
+		}
+		letters[s[i]] = 1;
+		i++;
+	}
+	return max_count;
+}
