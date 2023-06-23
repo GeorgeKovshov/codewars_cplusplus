@@ -1027,3 +1027,26 @@ int lengthOfLongestSubstring(string s) {
 	}
 	return max_count;
 }
+
+bool isValid(string s) {
+	unordered_map<char, char> brackets;
+	brackets.insert({ '(',')' });
+	brackets.insert({ '[',']' });
+	brackets.insert({ '{','}' });
+	stack<char> sta;
+	for (char c : s) {
+		if (brackets.find(c) != brackets.end()) {
+			sta.push(c);
+		}
+		else if (sta.empty()) {
+			return false;
+		}
+		else if (brackets[sta.top()] == c) {
+			sta.pop();
+		}
+		else {
+			return false;
+		}
+	}
+	return sta.empty();
+}

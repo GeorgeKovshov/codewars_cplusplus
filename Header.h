@@ -151,3 +151,7 @@ int lengthOfLastWord(string s);
 //sliding window
 int minSubArrayLen(int target, vector<int>& nums);
 int lengthOfLongestSubstring(string s);
+
+
+//stack
+bool isValid(string s);
