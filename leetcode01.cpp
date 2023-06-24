@@ -1050,3 +1050,74 @@ bool isValid(string s) {
 	}
 	return sta.empty();
 }
+
+
+bool isPalindrome1(string s) {
+	regex regexp("[^a-zA-Z0-9]");
+	stringstream ss(regex_replace(s, regexp, ""));
+	string b = ss.str();
+	int l = 0, r = b.size() - 1;
+	while (l < r) {
+		if ((char)tolower(b[l]) != (char)tolower(b[r])) {
+			return false;
+		}
+		l++;
+		r--;
+	}
+	return true;
+
+}
+
+bool check_character(char* c) {
+	if ((int)*c >= 48 && (int)*c <= 57) {
+		return true;
+	}
+	else if ((int)*c >= 97 && (int)*c <= 122) {
+		return true;
+	}
+	else if ((int)*c >= 65 && (int)*c <= 90) {
+		*c += 32;
+		return true;
+	}
+	return false;
+}
+
+bool isPalindrome(string s) {
+	int l = 0, r = s.size() - 1;
+	while (l < r) {
+		while (l < r) {
+			if (check_character(&s[l])) {
+				break;
+			}
+			l++;
+		}
+		while (l < r) {
+			if (check_character(&s[r])) {
+				break;
+			}
+			r--;
+		}
+		if (s[l] != s[r]) {
+			return false;
+		}
+		l++;
+		r--;
+	}
+	return true;
+
+}
+
+bool isPalindrome2(string s) {
+	int start = 0;
+	int end = s.size() - 1;
+	while (start <= end) {
+		if (!isalnum(s[start])) { start++; continue; }
+		if (!isalnum(s[end])) { end--; continue; }
+		if (tolower(s[start]) != tolower(s[end]))return false;
+		else {
+			start++;
+			end--;
+		}
+	}
+	return true;
+}

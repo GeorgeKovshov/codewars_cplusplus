@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <sstream>
 #include <stack>
+#include <regex>
 using namespace std;
 
 int rec_sum(int num);
@@ -155,3 +156,9 @@ int lengthOfLongestSubstring(string s);
 
 //stack
 bool isValid(string s);
+
+
+bool check_character(char* c);
+bool isPalindrome(string s);
+bool isPalindrome1(string s);
+bool isPalindrome2(string s);
