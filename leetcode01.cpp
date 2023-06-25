@@ -1121,3 +1121,164 @@ bool isPalindrome2(string s) {
 	}
 	return true;
 }
+
+string minWindow(string s, string t) {
+	if (s.empty() || t.empty() || t.size() > s.size()) {
+		return "";
+	}
+	else if (s.compare(t) == 0) {
+		return s;
+	}
+	int cur_count = 0;
+	unordered_map<char, int> letters;
+	while (cur_count < t.size()) {
+		if (letters.find(t[cur_count]) == letters.end()) {
+			letters.insert({ t[cur_count], 1 });
+		}
+		else {
+			letters[t[cur_count]]++;
+		}
+		cur_count++;
+	}
+
+	int i = 0;
+	int min = 0;
+	pair<int, int> indeces = { 0,-1 };
+
+	//finding the index of first correct letter
+	while (i < s.size()) {
+		if (letters.find(s[i]) != letters.end()) {
+			break;
+		}
+		i++;
+	}
+	indeces.first = i;
+
+	//finding the index of the last correct letter
+	while (i < s.size()) {
+		if (cur_count > 0) {
+			if (letters.find(s[i]) != letters.end()) {
+
+				if (letters[s[i]] > 0) {
+					cur_count--;
+				}
+				letters[s[i]]--;
+			}
+			i++;
+		}
+		else {
+			break;
+		}
+	}
+	indeces.second = i;
+
+
+	if (i >= s.size() && cur_count > 0) {
+		return "";
+	}
+	//min_indeces = indeces;
+	if (letters.find(s[indeces.first]) != letters.end()) {
+		letters[s[indeces.first]]++;
+		if (letters[s[indeces.first]] > 0) {
+			cur_count++;
+		}
+	}
+	//indeces.first++;
+
+	int length = indeces.second - indeces.first - 1;
+	while (cur_count <= 0) {
+
+		if (letters.find(s[i - length]) != letters.end()) {
+			letters[s[i - length]]++;
+			if (letters[s[i - length]] > 0) {
+				cur_count++;
+			}
+		}
+		indeces = { i - length, i };
+		//min_indeces = indeces;
+		length--;
+
+	}
+
+	while (i < s.size()) {
+		if (letters.find(s[i - length]) != letters.end()) {
+			letters[s[i - length]]++;
+			if (letters[s[i - length]] > 0) {
+				cur_count++;
+			}
+
+		}
+		if (letters.find(s[i]) != letters.end()) {
+			letters[s[i]]--;
+			if (letters[s[i]] >= 0) {
+				cur_count--;
+			}
+
+		}
+		while (cur_count <= 0) {
+			length--;
+			if (letters.find(s[i - length]) != letters.end()) {
+				letters[s[i - length]]++;
+				if (letters[s[i - length]] > 0) {
+					cur_count++;
+				}
+			}
+			indeces = { i - length, i + 1 };
+			//min_indeces = indeces;
+
+		}
+		i++;
+	}
+
+	return s.substr(indeces.first, length + 1);
+}
+
+string minWindow2(string s, string t)
+{
+
+	int m = s.size();
+	int n = t.size();
+	// Edge case
+	if (n > m)
+		return "";
+
+	// Char Map -- ASCII (0-128)
+	vector<int> charMap(128, -1);
+
+	int counter = 0;
+	// Build the char map
+	for (char c : t) {
+		if (charMap[c] == -1) {
+			counter++;
+			charMap[c] = 0;
+		}
+		charMap[c]++;
+	}
+
+	int left = 0;
+	int right = 0;
+	int minStart = 0;
+	int minSize = INT_MAX;
+
+	while (right < m)
+	{
+		charMap[s[right]]--;
+		if (charMap[s[right]] == 0)
+			counter--;
+		right++;
+
+		while (counter == 0)
+		{
+			if (minSize > right - left)
+			{
+				minSize = right - left;
+				minStart = left;
+			}
+			charMap[s[left]]++;
+			if (charMap[s[left]] == 1)
+				counter++;  // Char which are present in both 's' & 't' can only have freq > 1
+			left++;
+		}
+	}
+	return minSize == INT_MAX ? "" : s.substr(minStart, minSize);
+}
