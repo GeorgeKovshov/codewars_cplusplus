@@ -164,3 +164,9 @@ bool check_character(char* c);
 bool isPalindrome(string s);
 bool isPalindrome1(string s);
 bool isPalindrome2(string s);
+
+//dinamic programming
+int rec_rob2(vector<int>& nums, int ind, unordered_map<int, int>& memo);
+int rec_rob1(vector<int>& nums, int ind, int memo[101]);
+int rob(vector<int>& nums);
+int rob2(vector<int>& nums);

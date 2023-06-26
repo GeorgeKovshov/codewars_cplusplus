@@ -1282,3 +1282,91 @@ string minWindow2(string s, string t)
 	}
 	return minSize == INT_MAX ? "" : s.substr(minStart, minSize);
 }
+
+
+
+//dynamic programming
+int rec_rob2(vector<int>& nums, int ind, unordered_map<int, int>& memo) {
+	if (ind == 0) {
+		return nums[ind];
+	}
+	else if (ind < 0) {
+		return 0;
+	}
+	int tmp1, tmp2;
+
+	if (memo.find(ind - 1) == memo.end()) {
+		memo.insert({ ind - 1, rec_rob2(nums, ind - 1, memo) });
+	}
+	tmp1 = memo[ind - 1];
+
+	if (ind > 1) {
+		if (memo.find(ind - 2) == memo.end()) {
+			memo.insert({ ind - 2, rec_rob2(nums, ind - 2, memo) });
+		}
+		tmp2 = memo[ind - 2];
+	}
+	else {
+		tmp2 = 0;
+	}
+
+
+	/*
+	int tmp1 = (memo.find(ind - 1) != memo.end()) ? memo[ind - 1] : rec_rob(nums, ind - 1, memo);
+	int tmp2 = (memo.find(ind - 2) != memo.end()) ? memo[ind - 2] : rec_rob(nums, ind - 2, memo);
+	memo[ind - 1] = tmp1;
+	memo[ind - 2] = tmp2;
+	*/
+
+	return max(nums[ind] + tmp2, tmp1);
+
+
+}
+int rec_rob1(vector<int>& nums, int ind, int* memo) {
+	if (ind == 0) {
+		return nums[ind];
+	}
+	else if (ind < 0) {
+		return 0;
+	}
+	int tmp1, tmp2;
+
+	if (memo[ind - 1] == 0) {
+		memo[ind - 1] = rec_rob1(nums, ind - 1, memo);
+	}
+	tmp1 = memo[ind - 1];
+
+	if (memo[ind - 2] == 0) {
+		memo[ind - 2] = rec_rob1(nums, ind - 2, memo);
+	}
+	tmp2 = memo[ind - 2];
+
+
+	return max(nums[ind] + tmp2, tmp1);
+
+
+}
+
+int rob(vector<int>& nums) {
+	unordered_map<int, int> memo;
+	int arr[101];
+	for (int i = 0; i < 101; i++) {
+		memo[i] = -1;
+	}
+	return rec_rob2(nums, nums.size() - 1, memo);
+}
+
+int rob2(vector<int>& nums)
+{
+	int n = nums.size();
+	vector<int> rob(n, 0);
+	vector<int> norob(n, 0);
+	rob[n - 1] = nums[n - 1];
+	norob[n - 1] = 0;
+	for (int i = n - 2; i >= 0; i--)
+	{
+		rob[i] = nums[i] + norob[i + 1];
+		norob[i] = max(rob[i + 1], norob[i + 1]);
+	}
+	return max(rob[0], norob[0]);
+}
