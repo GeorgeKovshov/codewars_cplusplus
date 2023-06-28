@@ -170,3 +170,8 @@ int rec_rob2(vector<int>& nums, int ind, unordered_map<int, int>& memo);
 int rec_rob1(vector<int>& nums, int ind, int memo[101]);
 int rob(vector<int>& nums);
 int rob2(vector<int>& nums);
+int climbStairsRec(int n, unordered_map<int, int>& steps);
+int climbStairs1(int n);
+int climbStairs(int n);
+bool wordBreakOld(string s, vector<string>& wordDict);
+bool wordBreak(string s, vector<string>& wordDict);

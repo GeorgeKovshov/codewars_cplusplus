@@ -1370,3 +1370,106 @@ int rob2(vector<int>& nums)
 	}
 	return max(rob[0], norob[0]);
 }
+
+
+int climbStairsRec(int n, unordered_map<int, int>& steps) {
+	if (n <= 1) {
+		return 1;
+	}
+	int one, two;
+	if (steps.find(n - 1) == steps.end()) {
+		steps.insert({ n - 1,climbStairsRec(n - 1, steps) });
+	}
+	one = steps[n - 1];
+	if (steps.find(n - 2) == steps.end()) {
+		steps.insert({ n - 2,climbStairsRec(n - 2, steps) });
+	}
+	two = steps[n - 2];
+	return one + two;
+}
+
+
+int climbStairs1(int n) {
+	unordered_map<int, int> steps;
+	return climbStairsRec(n, steps);
+}
+
+int climbStairs(int n) {
+	int x1 = 1;
+	int x2 = 1;
+	while (1 < n) {
+		int tmp = x1;
+		x1 = x2;
+		x2 = x1 + tmp;
+		n--;
+	}
+	return x2;
+}
+
+
+bool wordBreakOld(string s, vector<string>& wordDict) {
+	int mini = INT_MAX;
+	int max = 0;
+	for (string s : wordDict) {
+		mini = (s.size() < mini) ? s.size() : mini;
+		max = (s.size() > max) ? s.size() : max;
+	}
+
+	for (int i = 0; i < s.size(); i += mini) {
+		bool fits = false;
+		int increase = 0;
+		for (int j = mini; j <= max; j++) {
+			string ss = s.substr(i, j);
+			cout << ss << " ";
+			if (find(wordDict.begin(), wordDict.end(), ss) != wordDict.end()) {
+				fits = true;
+
+				break;
+			}
+			increase++;
+		}
+		i += increase;
+		if (!fits) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool wordBreak(string s, vector<string>& wordDict) {
+	int mini = INT_MAX;
+	int max = 0;
+	stack<int> stak;
+	for (string s : wordDict) {
+		mini = (s.size() < mini) ? s.size() : mini;
+		max = (s.size() > max) ? s.size() : max;
+	}
+
+	for (int i = 0; i < s.size(); i += mini) {
+		bool fits = false;
+		int increase = 0;
+		int true_increase = 0;
+		for (int j = mini; j <= max; j++) {
+			string ss = s.substr(i, j);
+			if (find(wordDict.begin(), wordDict.end(), ss) != wordDict.end()) {
+				fits = true;
+				stak.push(i + increase + mini);
+				true_increase = increase;
+			}
+			increase++;
+		}
+		if (!stak.empty() && fits) { stak.pop(); }
+		i += true_increase;
+		if (!fits) {
+			if (!stak.empty()) {
+				i = stak.top() - mini;
+				stak.pop();
+			}
+			else {
+				return false;
+			}
+
+		}
+	}
+	return true;
+}
