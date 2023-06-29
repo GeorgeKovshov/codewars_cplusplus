@@ -165,6 +165,9 @@ bool isPalindrome(string s);
 bool isPalindrome1(string s);
 bool isPalindrome2(string s);
 
+
+bool myfunction(int i, int j);
+
 //dinamic programming
 int rec_rob2(vector<int>& nums, int ind, unordered_map<int, int>& memo);
 int rec_rob1(vector<int>& nums, int ind, int memo[101]);
@@ -175,3 +178,10 @@ int climbStairs1(int n);
 int climbStairs(int n);
 bool wordBreakOld(string s, vector<string>& wordDict);
 bool wordBreak(string s, vector<string>& wordDict);
+bool wordBreak1(string s, vector<string>& wordDict);
+bool wordBreak3(string s, vector<string>& wordDict);
+
+int coinChange(vector<int>& coins, int amount);
+int coinChange1(vector<int>& coins, int amount);
+int coinChange2(vector<int>& coins, int amount);
+int coinChangeRec(vector<int>& coins, unordered_map<int, int>& changes, int amount);

@@ -1473,3 +1473,130 @@ bool wordBreak(string s, vector<string>& wordDict) {
 	}
 	return true;
 }
+
+bool wordBreak1(string s, vector<string>& wordDict) {
+	if (wordDict.size() == 0) return false;
+
+	int mini = INT_MAX;
+	int max = 0;
+	for (string s : wordDict) {
+		mini = (s.size() < mini) ? s.size() : mini;
+		max = (s.size() > max) ? s.size() : max;
+	}
+
+	vector<bool> dp(s.size() + 1, false);
+	dp[0] = true;
+	int difference = 0;
+
+	for (int i = 1; i <= s.size(); i++)
+	{
+		bool found = false;
+		for (int j = i - 1; j >= i - max && j >= 0; j--)
+		{
+
+			if (dp[j])
+			{
+				string word = s.substr(j, i - j);
+				if (find(wordDict.begin(), wordDict.end(), word) != wordDict.end())
+				{
+					dp[i] = true;
+					break; //next i
+					found = true;
+				}
+			}
+			else if (!found) {
+				difference = i - j;
+			}
+		}
+		if (difference > max) {
+			return false;
+		}
+	}
+
+	return dp[s.size()];
+}
+
+bool wordBreak3(string s, vector<string>& wordDict)
+{
+	int n = s.length();
+	vector<bool> dp(n + 1, false);
+	dp[n] = true;
+
+	for (int i = n - 1; i >= 0; i--)
+	{
+		for (const string& w : wordDict)
+		{
+			if (i + w.length() <= n && s.substr(i, w.length()) == w)
+				dp[i] = dp[i + w.length()];
+			if (dp[i])
+				break;
+		}
+	}
+
+	return dp[0];
+}
+bool myfunction(int i, int j) {
+	return (i < j);
+}
+
+int coinChange1(vector<int>& coins, int amount) {
+	int count = 0;
+	sort(coins.begin(), coins.end(), myfunction);
+	for (int i = coins.size() - 1; i >= 0; i--) {
+		if (amount >= coins[i]) {
+			count += (amount / coins[i]);
+			amount = amount % coins[i];
+		}
+
+	}
+	return count;
+}
+
+int coinChange2(vector<int>& coins, int amount) {
+	int length = amount;
+	vector<int> dp(amount + 1, -1);
+	dp[amount] = true;
+	int count = 0;
+	while (amount >= 0) {
+		for (int x : coins) {
+			if (x + amount <= length && dp[amount + x] == true) {
+				dp[amount] = true;
+				count++;
+			}
+			if (dp[amount]) {
+				break;
+			}
+
+
+		}
+		amount--;
+	}
+	return count;
+}
+
+int coinChangeRec(vector<int>& coins, unordered_map<int, int>& changes, int amount) {
+	if (amount == 0) {
+		return 0;
+	}
+	else if (amount < 0) {
+		return INT_MAX;
+	}
+	int min_count = INT_MAX;
+	for (int coin : coins) {
+		if (changes.find(amount - coin) == changes.end()) {
+			changes.insert({ amount - coin, coinChangeRec(coins, changes, amount - coin) });
+		}
+		int count = changes[amount - coin];
+		if (count != INT_MAX) {
+			min_count = (count + 1 < min_count) ? count + 1 : min_count;
+		}
+
+	}
+	return min_count;
+}
+
+int coinChange(vector<int>& coins, int amount) {
+	unordered_map<int, int> changes;
+	int tmp = coinChangeRec(coins, changes, amount);
+	return (tmp != INT_MAX) ? tmp : -1;
+}
