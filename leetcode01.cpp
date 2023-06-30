@@ -1595,8 +1595,45 @@ int coinChangeRec(vector<int>& coins, unordered_map<int, int>& changes, int amou
 	return min_count;
 }
 
-int coinChange(vector<int>& coins, int amount) {
+int coinChange3(vector<int>& coins, int amount) {
 	unordered_map<int, int> changes;
 	int tmp = coinChangeRec(coins, changes, amount);
 	return (tmp != INT_MAX) ? tmp : -1;
+}
+
+int coinChange(vector<int>& coins, int amount) {
+	vector<int> vec(amount + 1, -1); // index is amount, value is count
+	vec[0] = 0;
+
+	for (int i = 0; i < amount; i++) {
+		if (vec[i] > -1) {
+			for (int coin : coins) {
+				if (i + coin < amount) {
+					if (vec[i] + 1 < vec[i + coin] || vec[i + coin] == -1) {
+						vec[i + coin] = vec[i] + 1;
+					}
+				}
+			}
+		}
+
+	}
+	return vec[amount - 1];
+
+}
+
+int length_of_longest_increasing_sequence(vector<int>& nums) {
+	if (nums.size() == 0) { return 0; }
+	int previous = nums[0];
+	int count = 1, max_count = 1;
+	for (int x : nums) {
+		if (x > previous) {
+			max_count = (++count > max_count) ? count : max_count;
+		}
+		else {
+			count = 1;
+		}
+		previous = x;
+	}
+	return max_count;
+
 }

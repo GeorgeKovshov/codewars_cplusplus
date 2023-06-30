@@ -181,7 +181,10 @@ bool wordBreak(string s, vector<string>& wordDict);
 bool wordBreak1(string s, vector<string>& wordDict);
 bool wordBreak3(string s, vector<string>& wordDict);
 
-int coinChange(vector<int>& coins, int amount);
+int coinChange3(vector<int>& coins, int amount);
 int coinChange1(vector<int>& coins, int amount);
 int coinChange2(vector<int>& coins, int amount);
 int coinChangeRec(vector<int>& coins, unordered_map<int, int>& changes, int amount);
+int coinChange(vector<int>& coins, int amount);
+
+int length_of_longest_increasing_sequence(vector<int>& nums);
