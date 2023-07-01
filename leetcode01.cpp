@@ -1637,3 +1637,22 @@ int length_of_longest_increasing_sequence(vector<int>& nums) {
 	return max_count;
 
 }
+
+
+int lengthOfLISRecNaive(vector<int>& nums, int previous, int ind) {
+	if (ind >= nums.size()) {
+		return 0;
+	}
+	int tmp = lengthOfLISRecNaive(nums, previous, ind + 1);
+	if (nums[ind] > previous) {
+		return max(lengthOfLISRecNaive(nums, nums[ind], ind + 1) + 1, tmp);
+	}
+	return tmp;
+
+}
+
+int lengthOfLISNaive(vector<int>& nums) {
+
+	return lengthOfLISRecNaive(nums, INT_MIN, 0);
+
+}

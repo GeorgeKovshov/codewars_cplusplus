@@ -166,6 +166,8 @@ bool isPalindrome1(string s);
 bool isPalindrome2(string s);
 
 
+
+
 bool myfunction(int i, int j);
 
 //dinamic programming
@@ -188,3 +190,6 @@ int coinChangeRec(vector<int>& coins, unordered_map<int, int>& changes, int amou
 int coinChange(vector<int>& coins, int amount);
 
 int length_of_longest_increasing_sequence(vector<int>& nums);
+
+int lengthOfLISRecNaive(vector<int>& nums, int previous, int ind);
+int lengthOfLISNaive(vector<int>& nums);
