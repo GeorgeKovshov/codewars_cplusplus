@@ -448,3 +448,245 @@ void binary_tree() {
 	////cout<<endl<<tree.depth();
 
 }
+
+
+
+struct node {
+	int value;
+	bool is_red;
+	node* parent;
+	node* left;
+	node* right;
+
+	node(int val) {
+		value = val;
+		is_red = true;
+		parent = nullptr;
+		left = nullptr;
+		right = nullptr;
+	}
+
+	node(int val, node* par) {
+		value = val;
+		is_red = true;
+		parent = par;
+		left = nullptr;
+		right = nullptr;
+	}
+	node(int val, bool red) {
+		//create nil black node
+		value = val;
+		is_red = red;
+		parent = nullptr;
+		left = nullptr;
+		right = nullptr;
+	}
+
+	void show() {
+		if (left) { left->show(); }
+		cout << value << " ";
+		if (right) { right->show(); }
+
+	}
+
+	void print(int level) {
+		if (right) {
+			right->print(level + 1);
+		}
+		for (int x = 1; x < level; x++) { cout << "   "; }
+		cout << level << ": " << value << " ";
+		if (is_red) { cout << "red" << endl; }
+		else { cout << "blk" << endl; }
+		if (left) {
+			left->print(level + 1);
+		}
+	}
+
+
+};
+
+
+
+
+class RBT {
+	node* root;
+	node* nil;
+
+public:
+	RBT(int val) {
+		root = new node(val, false);
+		nil = new node(INT_MIN, false);
+	}
+
+	void show() {
+
+		root->show();
+	}
+
+	void print() {
+
+		root->print(1);
+	}
+
+	void rotate_left(node* current) {
+		node* tmp = current->right;
+		current->right = tmp->left;
+		tmp->left = current;
+		tmp->parent = current->parent;
+		current->parent = tmp;
+		if (tmp->parent) {
+			if (tmp->value > tmp->parent->value) {
+				tmp->parent->right = tmp;
+			}
+			else {
+				tmp->parent->left = tmp;
+			}
+		}
+		else {
+			root = tmp;
+		}
+	}
+
+	void rotate_right(node* current) {
+		node* tmp = current->left;
+		current->left = tmp->right;
+		tmp->right = current;
+		tmp->parent = current->parent;
+		current->parent = tmp;
+		if (tmp->parent) {
+			if (tmp->value > tmp->parent->value) {
+				tmp->parent->right = tmp;
+			}
+			else {
+				tmp->parent->left = tmp;
+			}
+		}
+		else {
+			root = tmp;
+		}
+	}
+
+	void rebalance(node* current) {
+		if (current == nullptr || current == root || current->parent == root || current->parent->is_red == false) { return; }
+		if (current->value > current->parent->value) {
+			//left triangle
+			if (current->parent->value < current->parent->parent->value) {
+				//uncle is black
+				if (current->parent->parent->right == nullptr || current->parent->parent->right->is_red == false) {
+					//current->is_red = false;
+					node* tmp = current->parent;
+					rotate_left(current->parent);
+					rebalance(tmp);
+					//current->parent->right->is_red = false;
+					//recolor??
+				}
+				//uncle is red
+				else if (current->parent->parent->right->is_red == true) {
+					current->parent->parent->right->is_red = false;
+					current->parent->is_red = false;
+					current->parent->parent->is_red = true;
+				}
+			}
+			//right line
+			else {
+				current->parent->parent->is_red = true;
+				current->parent->is_red = false;
+				rotate_left(current->parent->parent);
+			}
+		}
+		else {
+			//right triangle
+			if (current->parent->value > current->parent->parent->value) {
+				//uncle is black
+				if (current->parent->parent->left == nullptr) {
+					//current->is_red = false;
+					node* tmp = current->parent;
+					rotate_right(current->parent);
+					rebalance(tmp);
+					//current->parent->left->is_red = false;
+					//recolor??
+				}
+				//uncle is red
+				else if (current->parent->parent->left->is_red == true) {
+					current->parent->parent->left->is_red = false;
+					current->parent->is_red = false;
+					current->parent->parent->is_red = true;
+				}
+			}
+			//left line
+			else {
+				current->parent->parent->is_red = true;
+				current->parent->is_red = false;
+				rotate_right(current->parent->parent);
+
+
+			}
+
+		}
+		rebalance(current->parent);
+	}
+
+
+	void add(int val) {
+		if (!root) {
+			root = new node(val, false);
+		}
+
+		node* tmp = root;
+		node* tmp2 = root;
+		while (tmp) {
+			tmp2 = tmp;
+			if (val > tmp->value) {
+				tmp = tmp->right;
+			}
+			else if (val < tmp->value) {
+				tmp = tmp->left;
+			}
+			else return;
+		}
+		node* addition = new node(val, tmp2);
+		if (val > tmp2->value) {
+			tmp2->right = addition;
+		}
+		else {
+			tmp2->left = addition;
+		}
+		rebalance(addition);
+	}
+
+	node* find(int val) {
+		node* tmp = root;
+		node* tmp2 = root;
+		while (tmp) {
+			tmp2 = tmp;
+			if (val > tmp->value) {
+				tmp = tmp->right;
+			}
+			else if (val < tmp->value) {
+				tmp = tmp->left;
+			}
+			else return tmp;
+		}
+		return (tmp2->value == val) ? tmp2 : nullptr;
+	}
+
+
+
+};
+
+void Red_Black_trees() {
+	RBT tree(15);
+	tree.add(5);
+	//tree.add(1);
+	tree.add(8);
+	//tree.add(5);
+	tree.add(12);
+	tree.add(19);
+	tree.add(1);
+	tree.add(9);
+
+	tree.add(13);
+	tree.add(23);
+	tree.add(10);
+	tree.print();
+}
