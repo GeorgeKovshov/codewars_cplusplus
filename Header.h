@@ -158,12 +158,14 @@ string minWindow2(string s, string t);
 
 //stack
 bool isValid(string s);
+int calculate(string s);
 
 
 bool check_character(char* c);
 bool isPalindrome(string s);
 bool isPalindrome1(string s);
 bool isPalindrome2(string s);
+
 
 
 
@@ -193,3 +195,6 @@ int length_of_longest_increasing_sequence(vector<int>& nums);
 
 int lengthOfLISRecNaive(vector<int>& nums, int previous, int ind);
 int lengthOfLISNaive(vector<int>& nums);
+int lengthOfLISRec(vector<int>& nums, int previous, int ind, unordered_map<int, int>& dp);
+int lengthOfLIS(vector<int>& nums);
+int lengthOfLIS1(vector<int>& nums);

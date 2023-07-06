@@ -1656,3 +1656,107 @@ int lengthOfLISNaive(vector<int>& nums) {
 	return lengthOfLISRecNaive(nums, INT_MIN, 0);
 
 }
+
+
+int lengthOfLISRec(vector<int>& nums, int previous, int ind, unordered_map<int, int>& dp) {
+	if (ind >= nums.size()) {
+		return 0;
+	}
+	int tmp = lengthOfLISRec(nums, previous, ind + 1, dp);
+	if (nums[ind] > previous) {
+
+		if (dp.find(ind) == dp.end())
+			dp.insert({ ind,lengthOfLISRec(nums, nums[ind], ind + 1, dp) });
+		int tmp2 = dp[ind];
+
+		return max(tmp2 + 1, tmp);
+	}
+	return tmp;
+
+}
+
+int lengthOfLIS(vector<int>& nums) {
+	unordered_map<int, int> dp;
+	return lengthOfLISRec(nums, INT_MIN, 0, dp);
+
+}
+
+
+int lengthOfLIS1(vector<int>& nums) {
+	int n = nums.size();
+	vector<int> dp(n, 1);
+	for (int i = 0; i < n; ++i)
+		for (int j = 0; j < i; ++j)
+			if (nums[i] > nums[j] && dp[i] < dp[j] + 1)
+				dp[i] = dp[j] + 1;
+	return *max_element(dp.begin(), dp.end());
+}
+
+
+int calculate(string s) {
+	stack<char> st;
+	stack<int> sums;
+	int sum = 0;
+	for (int i = 0; i < s.size(); i++) {
+		char x = s[i];
+		if (x == ' ') {
+			continue;
+		}
+		else if (x == '+' || x == '-') {
+			st.push(x);
+		}
+		else if (x == '(') {
+			sums.push(sum);
+			st.push('(');
+			sum = 0;
+		}
+		else if (x == ')') {
+			if (st.top() == '(') { st.pop(); }
+
+			if (st.empty() || st.top() == '+') {
+				sum = (sums.empty()) ? sum : sums.top() + sum;
+			}
+			else if (st.top() == '-') {
+				sum = (sums.empty()) ? -sum : sums.top() - sum;
+			}
+
+			if (!st.empty()) {
+				st.pop();
+			}
+			if (!sums.empty()) {
+				sums.pop();
+			}
+		}
+
+		else {
+			int j = i;
+			int digit = int(x) - 48;
+			while (j < s.size()) {
+				j++;
+				if ((int)s[j] > 47 && (int)s[j] < 58) {
+					digit = digit * 10 + (int(s[j]) - 48);
+				}
+				else {
+					break;
+				}
+
+			}
+			i = (j < s.size()) ? j - 1 : i;
+			if (st.empty() || st.top() == '(') {
+				sum += digit;
+			}
+			else if (st.top() == '+') {
+				sum += digit;
+			}
+			else if (st.top() == '-') {
+				sum -= digit;
+			}
+			if (!st.empty() && st.top() != '(') {
+				st.pop();
+			}
+		}
+
+
+	}
+	return sum;
+}
