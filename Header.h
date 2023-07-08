@@ -198,3 +198,9 @@ int lengthOfLISNaive(vector<int>& nums);
 int lengthOfLISRec(vector<int>& nums, int previous, int ind, unordered_map<int, int>& dp);
 int lengthOfLIS(vector<int>& nums);
 int lengthOfLIS1(vector<int>& nums);
+
+bool check_isomorphic(unordered_map<char, char>& mp, char s, char t);
+bool isIsomorphic1(string s, string t);
+bool isIsomorphic2(string s, string t);
+bool isIsomorphic3(string s, string t);
+bool wordPattern(string pattern, string s);

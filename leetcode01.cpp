@@ -1760,3 +1760,94 @@ int calculate(string s) {
 	}
 	return sum;
 }
+
+bool isIsomorphic1(string s, string t) {
+	unordered_map<char, char> mp;
+	if (s.size() != t.size()) { return false; }
+	for (int i = 0; i < s.size(); i++) {
+		if (mp.find(s[i]) == mp.end()) {
+			char c = t[i];
+			auto it = std::find_if(std::begin(mp), std::end(mp), [&c](auto&& pair) { return pair.second == c; });
+			if (it == mp.end()) {
+				mp.insert({ s[i], t[i] });
+			}
+			else {
+				return false;
+			}
+
+		}
+		else {
+			if (mp[s[i]] != t[i]) {
+				return false;
+			}
+		}
+
+	}
+	return true;
+}
+
+bool check_isomorphic(unordered_map<char, char>& mp, char s, char t) {
+	for (pair<char, char> p : mp) {
+		if (p.first == s && p.second != t) {
+			return false;
+		}
+		else if (p.first == s && p.second == t) {
+			return true;
+		}
+	}
+	mp.insert({ s,t });
+	return true;
+}
+
+bool isIsomorphic2(string s, string t) {
+	unordered_map<char, char> mp;
+	if (s.size() != t.size()) { return false; }
+	for (int i = 0; i < s.size(); i++) {
+		if (!check_isomorphic(mp, s[i], t[i])) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool isIsomorphic3(string s, string t) {
+	int m1[256] = { 0 }, m2[256] = { 0 }, n = s.length();
+	for (int i = 0; i < n; i++) {
+		if (m1[s[i]] != m2[t[i]]) return false;
+		m1[s[i]] = i + 1;
+		m2[t[i]] = i + 1;
+	}
+	return true;
+}
+
+bool wordPattern(string pattern, string s) {
+	unordered_map<char, string> mp;
+	int i = 0;
+	int j = i;
+	char c;
+	for (char p : pattern) {
+		c = p;
+		j = i;
+		string st = "";
+		while (s[j] != ' ' && j < s.size()) {
+			st.push_back(s[j]);
+			j++;
+		}
+		i = j + 1;
+		if (mp.find(p) == mp.end()) {
+			auto it = std::find_if(std::begin(mp), std::end(mp), [&st](auto&& pair) { return pair.second == st; });
+			if (it == mp.end()) {
+				mp.insert({ p,st });
+			}
+			else {
+				return false;
+			}
+
+		}
+		else if (mp[p] != st) {
+			return false;
+		}
+
+	}
+	return (j == s.size() && pattern[pattern.size() - 1] == c) ? true : false;
+}
