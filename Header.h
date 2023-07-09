@@ -204,3 +204,5 @@ bool isIsomorphic1(string s, string t);
 bool isIsomorphic2(string s, string t);
 bool isIsomorphic3(string s, string t);
 bool wordPattern(string pattern, string s);
+int candy(vector<int>& ratings);
+int candy1(vector<int>& ratings);

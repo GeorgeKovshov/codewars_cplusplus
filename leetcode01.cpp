@@ -1851,3 +1851,124 @@ bool wordPattern(string pattern, string s) {
 	}
 	return (j == s.size() && pattern[pattern.size() - 1] == c) ? true : false;
 }
+
+int candy1(vector<int>& ratings) {
+	if (ratings.size() == 0) {
+		return 0;
+	}
+	else if (ratings.size() == 1) {
+		return 1;
+	}
+	else if (ratings.size() == 2) {
+		return (ratings[0] == ratings[1]) ? 2 : 3;
+	}
+	vector<int> snickers(ratings.size(), 1);
+
+	for (int i = 1; i < ratings.size() - 1; i++) {
+		if (ratings[i] > ratings[i + 1]) {
+			while (snickers[i] <= snickers[i + 1]) {
+				snickers[i]++;
+
+			}
+		}
+		if (ratings[i] > ratings[i - 1]) {
+			while (snickers[i] <= snickers[i - 1]) {
+				snickers[i]++;
+
+			}
+		}
+		else {
+			int j = i;
+			while (ratings[j - 1] > ratings[j] && j > 0) {
+				while (snickers[j - 1] <= snickers[j]) {
+					snickers[j - 1]++;
+				}
+				j--;
+			}
+		}
+
+	}
+
+
+
+	if (ratings[0] > ratings[1]) {
+		while (snickers[0] <= snickers[1]) {
+			snickers[0]++;
+
+		}
+	}
+	if (ratings[ratings.size() - 1] > ratings[ratings.size() - 2]) {
+		while (snickers[ratings.size() - 1] <= snickers[ratings.size() - 2]) {
+			snickers[ratings.size() - 1]++;
+
+		}
+	}
+
+	int sum = 0;
+	for (int i = 0; i < snickers.size(); i++) {
+		cout << i << ": " << ratings[i] << " -> " << snickers[i] << endl;
+		sum += snickers[i];
+	}
+	return sum;
+
+}
+
+int candy(vector<int>& ratings) {
+	if (ratings.size() == 0) {
+		return 0;
+	}
+	else if (ratings.size() == 1) {
+		return 1;
+	}
+	else if (ratings.size() == 2) {
+		return (ratings[0] == ratings[1]) ? 2 : 3;
+	}
+	vector<int> snickers(ratings.size(), 1);
+
+	int amount_of_snickers = 1;
+
+
+	int increase = 1;
+	int decrease = 0;
+	bool is_increasing = true;
+
+	if (ratings[0] >= ratings[1]) {
+		increase = INT_MAX;
+		decrease = 1;
+		is_increasing = false;
+	}
+
+
+	for (int i = 1; i < ratings.size(); i++) {
+		if (ratings[i] > ratings[i - 1]) {
+			if (is_increasing == false) {
+				increase = 1;
+				is_increasing = true;
+			}
+			increase++;
+			amount_of_snickers += increase;
+		}
+		else if (ratings[i] < ratings[i - 1]) {
+			if (is_increasing == true) {
+				//increase++;
+				decrease = 0;
+				is_increasing = false;
+			}
+			decrease++;
+			if (decrease >= increase) {
+				amount_of_snickers++;
+			}
+			amount_of_snickers += decrease;
+
+		}
+		else if (ratings[i] == ratings[i - 1]) {
+			amount_of_snickers += 1;
+			decrease = 1;
+			increase = INT_MAX;
+			is_increasing = false;
+		}
+	}
+
+	return amount_of_snickers;
+
+}
