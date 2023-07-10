@@ -1972,3 +1972,158 @@ int candy(vector<int>& ratings) {
 	return amount_of_snickers;
 
 }
+
+vector<vector<int>> threeSum1(vector<int>& nums) {
+	unordered_map<int, int> mp;
+	vector<vector<int>> result;
+	sort(nums.begin(), nums.end());
+	for (int i = 0; i < nums.size(); i++) {
+		mp[nums[i]] = i;
+		cout << nums[i] << " ";
+	}
+	int l = 0; int r = nums.size() - 1;
+	while (l < r) {
+		if (mp.find(-(nums[l] + nums[r])) != mp.end() && mp[-(nums[l] + nums[r])] != l && mp[-(nums[l] + nums[r])] != r) {
+			vector<int> tmp = { nums[l], nums[r], nums[mp[-(nums[l] + nums[r])]] };
+			sort(tmp.begin(), tmp.end());
+			if (find(result.begin(), result.end(), tmp) == result.end()) {
+				result.push_back(tmp);
+			}
+
+		}
+		if (abs(nums[l] - nums[l + 1]) == abs(nums[r] - nums[r - 1])) {
+			if (l + 1 != r && mp.find(-(nums[l + 1] + nums[r])) != mp.end() && mp[-(nums[l + 1] + nums[r])] != l + 1 && mp[-(nums[l + 1] + nums[r])] != r) {
+				vector<int> tmp = { nums[l + 1], nums[r], nums[mp[-(nums[l + 1] + nums[r])]] };
+				sort(tmp.begin(), tmp.end());
+				if (find(result.begin(), result.end(), tmp) == result.end()) {
+					result.push_back(tmp);
+				}
+
+			}
+			if (r - 1 != l && mp.find(-(nums[l] + nums[r - 1])) != mp.end() && mp[-(nums[l] + nums[r - 1])] != l && mp[-(nums[l] + nums[r - 1])] != r - 1) {
+				vector<int> tmp = { nums[l], nums[r - 1], nums[mp[-(nums[l] + nums[r - 1])]] };
+				sort(tmp.begin(), tmp.end());
+				if (find(result.begin(), result.end(), tmp) == result.end()) {
+					result.push_back(tmp);
+				}
+
+			}
+			if (nums[r - 1] != 0 and nums[l + 1] == 0) {
+				r--;
+			}
+			else if (nums[r - 1] == 0 and nums[l + 1] != 0) {
+				l++;
+			}
+			else {
+				r--;
+				l++;
+			}
+
+		}
+		else if (abs(nums[l] - nums[l + 1]) > abs(nums[r] - nums[r - 1])) {
+			l++;
+		}
+		else {
+			r--;
+		}
+	}
+	return result;
+
+}
+vector<vector<int>> threeSumClean(vector<int>& nums) {
+	vector<vector<int>> result;
+	sort(nums.begin(), nums.end());
+	for (int i = 1; i < nums.size() - 1; i++) {
+		int l = 0, r = nums.size() - 1;
+		while (l < i && r > i) {
+			int sum = nums[l] + nums[r] + nums[i];
+			if (sum == 0) {
+				vector<int> tmp = { nums[l], nums[r], nums[i] };
+				sort(tmp.begin(), tmp.end());
+				if (find(result.begin(), result.end(), tmp) == result.end()) {
+					result.push_back(tmp);
+				}
+				l++;
+				r--;
+			}
+			else if (sum > 0) {
+				r--;
+			}
+			else if (sum < 0) {
+				l++;
+			}
+		}
+	}
+	return result;
+}
+
+vector<vector<int>> threeSum(vector<int>& nums) {
+	vector<vector<int>> result;
+	sort(nums.begin(), nums.end());
+	for (int i = 1; i < nums.size() - 1; i++) {
+		int l = 0, r = nums.size() - 1;
+		if (nums[l] + nums[i] + nums[i + 1] > 0 || nums[i - 1] + nums[i] + nums[r] < 0) {
+			continue;
+		}
+		while (l < i && r > i) {
+			int sum = nums[l] + nums[r] + nums[i];
+			if (sum == 0) {
+				vector<int> tmp = { nums[l], nums[r], nums[i] };
+				sort(tmp.begin(), tmp.end());
+				if (find(result.begin(), result.end(), tmp) == result.end()) {
+					result.push_back(tmp);
+				}
+				while (nums[l + 1] == nums[l] && l < i) {
+					l++;
+				}
+				while (nums[r - 1] == nums[r] && r > i) {
+					r--;
+				}
+				l++; r--;
+			}
+			else if (sum > 0) {
+				r--;
+			}
+			else if (sum < 0) {
+				l++;
+			}
+			if (nums[l] + nums[i] + nums[i + 1] > 0 || nums[i - 1] + nums[i] + nums[r] < 0) {
+				break;
+			}
+		}
+	}
+	return result;
+}
+
+vector<vector<int>> threeSumOptimal(vector<int>& nums) {
+	vector<vector<int>> answer;
+	sort(nums.begin(), nums.end());
+	int n = nums.size();
+	for (int i = 0; i < n - 1; i++) {
+		//REMOVES THE PROBABILITY OF DUPLICATE TRIPLETS
+		if (i > 0 && nums[i] == nums[i - 1])
+			continue;
+
+		int partialSum = 0 - nums[i];
+		int s = i + 1, e = n - 1;
+		while (s < e) {
+			if (nums[s] + nums[e] > partialSum)
+				e--;
+			else if (nums[s] + nums[e] < partialSum)
+				s++;
+			else {
+				vector<int> temp = { nums[i] , nums[s] , nums[e] };
+				answer.push_back(temp);
+				s++;
+				e--;
+
+				//REMOVES THE PROBABILITY OF DUPLICATE TRIPLETS
+				while (s < e && nums[s] == nums[s - 1])
+					s++;
+				while (s < e && nums[e] == nums[e + 1])
+					e--;
+			}
+		}
+	}
+	return answer;
+}

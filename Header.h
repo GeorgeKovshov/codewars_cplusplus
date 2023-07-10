@@ -7,6 +7,7 @@
 #include <sstream>
 #include <stack>
 #include <regex>
+#include <set>
 using namespace std;
 
 int rec_sum(int num);
@@ -206,3 +207,8 @@ bool isIsomorphic3(string s, string t);
 bool wordPattern(string pattern, string s);
 int candy(vector<int>& ratings);
 int candy1(vector<int>& ratings);
+vector<vector<int>> threeSumOptimal(vector<int>& nums);
+vector<vector<int>> threeSum(vector<int>& nums);
+vector<vector<int>> threeSumClean(vector<int>& nums);
+vector<vector<int>> threeSum1(vector<int>& nums);
+
