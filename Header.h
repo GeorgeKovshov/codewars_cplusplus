@@ -212,3 +212,15 @@ vector<vector<int>> threeSum(vector<int>& nums);
 vector<vector<int>> threeSumClean(vector<int>& nums);
 vector<vector<int>> threeSum1(vector<int>& nums);
 
+//pointers
+ListNode* reverseList(ListNode* head);
+bool hasCycle1(ListNode* head);
+bool hasCycleRec(ListNode* curr, ListNode* doubl);
+bool hasCycle2(ListNode* head);
+bool hasCycle3_fastest(ListNode* head);
+bool hasCycle4_reverse(ListNode* head);
+bool hasCycle5_Naive(ListNode* head);
+bool hasCycle6_hash(ListNode* head);
+bool hasCycle7_Floyd(ListNode* head);
+ListNode* detectCycle(ListNode* head);
+
