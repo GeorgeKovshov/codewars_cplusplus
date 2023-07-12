@@ -139,3 +139,85 @@ ListNode* detectCycle(ListNode* head) {
     }
     return nullptr;
 }
+
+ListNode* addTwoNumbers1(ListNode* l1, ListNode* l2) {
+    int carry = 0;
+    ListNode* l3 = new ListNode();
+    ListNode* l4 = l3;
+    while (l1 && l2) {
+        int tmp = l1->val + l2->val + carry;
+        carry = tmp / 10;
+        l3->next = new ListNode(tmp % 10);
+        l3 = l3->next;
+        l2 = l2->next;
+        l1 = l1->next;
+    }
+    while (l1) {
+        int tmp = l1->val + carry;
+        l3->next = new ListNode(tmp % 10);
+        carry = tmp / 10;
+        l1 = l1->next;
+        l3 = l3->next;
+    }
+    while (l2) {
+        int tmp = l2->val + carry;
+        l3->next = new ListNode(tmp % 10);
+        carry = tmp / 10;
+        l2 = l2->next;
+        l3 = l3->next;
+    }
+    if (carry == 1) {
+        l3->next = new ListNode(carry);
+    }
+    return l4->next;
+
+}
+
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    int carry = 0;
+    //int sum = 0;
+    ListNode* l4 = l1;
+    ListNode* l3 = l1;
+    while (l1 && l2) {
+        int tmp = l1->val + l2->val + carry;
+        carry = tmp / 10;
+        //sum = sum * 10 + tmp % 10;
+        l1->val = tmp % 10;
+        l2 = l2->next;
+        l3 = l1;
+        l1 = l1->next;
+    }
+    if (l2) {
+        int tmp = l2->val + carry;
+        carry = tmp / 10;
+        l2->val = tmp % 10;
+        l3->next = l2;
+        l3 = l3->next;
+        l1 = l2->next;
+    }
+    while (l1 && carry == 1) {
+        int tmp = l1->val + carry;
+        carry = tmp / 10;
+        l1->val = tmp % 10;
+        l3 = l1;
+        l1 = l1->next;
+    }
+    if (carry == 1) {
+        l3->next = new ListNode(carry);
+    }
+    //cout << sum;
+    return l4;
+
+}
+
+void adding_two_lists() {
+    ListNode* l1 = new ListNode(2);
+    l1->add(4);
+    l1->add(9);
+    ListNode* l2 = new ListNode(5);
+    l2->add(6);
+    l2->add(4);
+    l2->add(9);
+    ListNode* l3 = addTwoNumbers(l1, l2);
+    l3->show();
+}

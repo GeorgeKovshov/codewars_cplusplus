@@ -223,4 +223,7 @@ bool hasCycle5_Naive(ListNode* head);
 bool hasCycle6_hash(ListNode* head);
 bool hasCycle7_Floyd(ListNode* head);
 ListNode* detectCycle(ListNode* head);
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2);
+ListNode* addTwoNumbers1(ListNode* l1, ListNode* l2);
+void adding_two_lists();
 
