@@ -227,4 +227,6 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2);
 ListNode* addTwoNumbers1(ListNode* l1, ListNode* l2);
 void adding_two_lists();
 ListNode* mergeTwoLists_Naive(ListNode* list1, ListNode* list2);
+ListNode* mergeTwoLists_efficient(ListNode* list1, ListNode* list2);
+ListNode* reverseBetween(ListNode* head, int left, int right);
 

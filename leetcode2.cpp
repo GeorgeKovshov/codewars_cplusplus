@@ -241,3 +241,99 @@ ListNode* mergeTwoLists_Naive(ListNode* list1, ListNode* list2) {
     if (list2) { l->next = list2; }
     return list3->next;
 }
+
+ListNode* mergeTwoLists_efficient(ListNode* list1, ListNode* list2) {
+    ListNode* prev = nullptr;
+    ListNode* tmp;
+    if (!list1) {
+        return list2;
+    }
+    else if (!list2) {
+        return list1;
+    }
+    //this section is optional to improve memory usage
+    //-------------------------------------------
+    if (!list1->next && !list2->next) {
+        if (list1->val < list2->val) {
+            list1->next = list2;
+        }
+        else {
+            list2->next = list1;
+            list1 = list2;
+        }
+        return list1;
+    }
+    else if (!list1->next && list2->next) {
+        tmp = list2;
+        list2 = list1;
+        list1 = tmp;
+    }
+    //---------------------------------------------
+    ListNode* list3 = list1;
+
+    while (list1 && list2) {
+        if (list1->val > list2->val) {
+            tmp = list2->next;
+            if (prev) { prev->next = list2; prev = prev->next; }
+            else {
+                prev = list2;
+                list3 = prev;
+            }
+            list2->next = list1;
+            list2 = tmp;
+        }
+        else {
+            prev = list1;
+            list1 = list1->next;
+        }
+
+
+    }
+    if (list2) {
+        prev->next = list2;
+    }
+    return list3;
+}
+
+ListNode* reverseBetween(ListNode* head, int left, int right) {
+    if (right - left == 0) {
+        return head;
+    }
+    else if (!head) {
+        return nullptr;
+    }
+    else if (!head->next) {
+        return head;
+    }
+    ListNode* prev = nullptr;
+    ListNode* tmp;
+    ListNode* list = head;
+    ListNode* start = head;
+    ListNode* first = head;
+    int count = 1;
+    while (head) {
+        tmp = head->next;
+        if (count == left) {
+            start = prev;
+            first = head;
+        }
+        else if (count == right) {
+            if (start) { start->next = head; }
+            else {
+                start = head;
+            }
+            first->next = tmp;
+            head->next = prev;
+        }
+        else if (count > left && count < right) {
+            head->next = prev;
+        }
+        prev = head;
+        head = tmp;
+        count++;
+    }
+    return (left == 1) ? start : list;
+}
+
+
+
