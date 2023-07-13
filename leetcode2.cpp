@@ -221,3 +221,23 @@ void adding_two_lists() {
     ListNode* l3 = addTwoNumbers(l1, l2);
     l3->show();
 }
+
+ListNode* mergeTwoLists_Naive(ListNode* list1, ListNode* list2) {
+    ListNode* list3 = new ListNode();
+    ListNode* l = list3;
+
+    while (list1 && list2) {
+        if (list1->val > list2->val) {
+            l->next = new ListNode(list2->val);
+            list2 = list2->next;
+        }
+        else {
+            l->next = new ListNode(list1->val);
+            list1 = list1->next;
+        }
+        l = l->next;
+    }
+    if (list1) { l->next = list1; }
+    if (list2) { l->next = list2; }
+    return list3->next;
+}
