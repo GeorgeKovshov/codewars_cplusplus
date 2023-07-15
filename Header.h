@@ -99,6 +99,15 @@ struct ListNode {
 
 };
 
+class Node {
+public:
+	int val;
+	Node* next;
+	Node* random;
+
+	Node(int _val);
+};
+
 bool isPalindrome2(ListNode* head);
 bool isPalindromeOld(ListNode* head);
 bool isPalindrome(ListNode* node);
@@ -229,4 +238,6 @@ void adding_two_lists();
 ListNode* mergeTwoLists_Naive(ListNode* list1, ListNode* list2);
 ListNode* mergeTwoLists_efficient(ListNode* list1, ListNode* list2);
 ListNode* reverseBetween(ListNode* head, int left, int right);
+Node* copyRandomList(Node* head);
+ListNode* removeNthFromEnd(ListNode* head, int n);
 

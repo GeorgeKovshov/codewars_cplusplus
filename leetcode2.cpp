@@ -335,5 +335,62 @@ ListNode* reverseBetween(ListNode* head, int left, int right) {
     return (left == 1) ? start : list;
 }
 
+Node::Node(int _val) {
+    val = _val;
+    next = NULL;
+    random = NULL;
+}
 
+Node* copyRandomList(Node* head) {
+    if (!head) { return nullptr; }
+    unordered_map<Node*, Node*> hp;
+    Node* list = new Node(head->val);
+    hp.insert({ head, list });
+    Node* start = list;
+
+    while (head) {
+        if (head->next) {
+            if (hp.find(head->next) == hp.end()) {
+                Node* tmp = new Node(head->next->val);
+                hp.insert({ head->next, tmp });
+            }
+            list->next = hp[head->next];
+
+        }
+        if (head->random) {
+            if (hp.find(head->random) == hp.end()) {
+                Node* tmp = new Node(head->random->val);
+                hp.insert({ head->random, tmp });
+            }
+            list->random = hp[head->random];
+        }
+        head = head->next;
+        list = list->next;
+
+    }
+    return start;
+}
+
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+
+    if (n == 0) { return head; }
+    ListNode* list = head;
+    while (head && n > 0) {
+        head = head->next;
+        n--;
+    }
+    if (n == 0 && !head) { return (list->next) ? list->next : nullptr; }
+    if (n > 0) { return nullptr; }
+    if (!head) { return list; }
+
+    ListNode* prev = list;
+    while (head->next) {
+        prev = prev->next;
+        head = head->next;
+    }
+    prev->next = prev->next->next;
+
+
+    return list;
+}
 
