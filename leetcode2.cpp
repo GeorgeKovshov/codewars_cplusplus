@@ -394,3 +394,49 @@ ListNode* removeNthFromEnd(ListNode* head, int n) {
     return list;
 }
 
+TreeNode::TreeNode() : val(0), left(nullptr), right(nullptr) {}
+TreeNode::TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+TreeNode::TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
+
+
+
+TreeNode* invertTree(TreeNode* root) {
+    if (!root) { return nullptr; }
+    TreeNode* tmp = root->left;
+    root->left = root->right;
+    root->right = tmp;
+    invertTree(root->left);
+    invertTree(root->right);
+    return root;
+
+}
+
+int maxDepth(TreeNode* root) {
+    if (!root) { return 0; }
+    return max(maxDepth(root->left) + 1, maxDepth(root->right) + 1);
+
+}
+
+bool isSameTree(TreeNode* p, TreeNode* q) {
+    if (!p && !q) { return true; }
+    else if ((!p && q) || (p && !q)) { return false; }
+    else if (p->val != q->val) { return false; }
+
+    return min(isSameTree(p->left, q->left), isSameTree(p->right, q->right));
+
+}
+
+bool isSymmetricRec(TreeNode* p, TreeNode* q) {
+    if (!p && !q) { return true; }
+    else if ((!p && q) || (p && !q)) { return false; }
+    else if (p->val != q->val) { return false; }
+
+    return min(isSymmetricRec(p->left, q->right), isSymmetricRec(p->right, q->left));
+
+}
+
+bool isSymmetric(TreeNode* root) {
+    if (!root) { return false; }
+    return isSymmetricRec(root->left, root->right);
+}
+

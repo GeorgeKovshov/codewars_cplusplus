@@ -108,6 +108,9 @@ public:
 	Node(int _val);
 };
 
+
+
+
 bool isPalindrome2(ListNode* head);
 bool isPalindromeOld(ListNode* head);
 bool isPalindrome(ListNode* node);
@@ -240,4 +243,24 @@ ListNode* mergeTwoLists_efficient(ListNode* list1, ListNode* list2);
 ListNode* reverseBetween(ListNode* head, int left, int right);
 Node* copyRandomList(Node* head);
 ListNode* removeNthFromEnd(ListNode* head, int n);
+
+
+
+//trees
+
+struct TreeNode {
+	int val;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode();
+	TreeNode(int x);
+	TreeNode(int x, TreeNode* left, TreeNode* right);
+
+};
+
+TreeNode* invertTree(TreeNode* root);
+int maxDepth(TreeNode* root);
+bool isSameTree(TreeNode* p, TreeNode* q);
+bool isSymmetricRec(TreeNode* p, TreeNode* q);
+bool isSymmetric(TreeNode* root);
 
