@@ -263,4 +263,6 @@ int maxDepth(TreeNode* root);
 bool isSameTree(TreeNode* p, TreeNode* q);
 bool isSymmetricRec(TreeNode* p, TreeNode* q);
 bool isSymmetric(TreeNode* root);
+bool hasPathSumRec(TreeNode* root, int targetSum);
+bool hasPathSum(TreeNode* root, int targetSum);
 

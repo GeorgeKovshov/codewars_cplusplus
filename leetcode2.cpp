@@ -440,3 +440,28 @@ bool isSymmetric(TreeNode* root) {
     return isSymmetricRec(root->left, root->right);
 }
 
+
+bool hasPathSumRec(TreeNode* root, int targetSum) {
+
+    if (root->left && root->right) {
+        return max(hasPathSumRec(root->left, targetSum - root->val), hasPathSumRec(root->right, targetSum - root->val));
+    }
+    else if (!root->left && root->right) {
+        return hasPathSumRec(root->right, targetSum - root->val);
+    }
+    else if (root->left && !root->right) {
+        return hasPathSumRec(root->left, targetSum - root->val);
+    }
+    else {
+        return targetSum == root->val;
+    }
+
+
+}
+bool hasPathSum(TreeNode* root, int targetSum) {
+    if (!root) return false;
+
+    return hasPathSumRec(root, targetSum);
+
+}
+
