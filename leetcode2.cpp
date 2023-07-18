@@ -397,6 +397,19 @@ ListNode* removeNthFromEnd(ListNode* head, int n) {
 TreeNode::TreeNode() : val(0), left(nullptr), right(nullptr) {}
 TreeNode::TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 TreeNode::TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
+void TreeNode::show() {
+    print(1);
+}
+void TreeNode::print(int level) {
+    if (right) {
+        right->print(level + 1);
+    }
+    for (int x = 1; x < level; x++) { cout << "   "; }
+    cout << level << ": " << val << " " << endl;
+    if (left) {
+        left->print(level + 1);
+    }
+}
 
 
 
@@ -463,5 +476,80 @@ bool hasPathSum(TreeNode* root, int targetSum) {
 
     return hasPathSumRec(root, targetSum);
 
+}
+
+TreeNode* buildTreeRec(vector<int>::iterator preorder_st, vector<int>::iterator preorder_ed,
+    vector<int>::iterator inorder_st, vector<int>::iterator inorder_ed) {
+    TreeNode* tree = new TreeNode(*preorder_st);
+    if (preorder_st == preorder_ed - 1) { return tree; }
+    vector<int>::iterator tmp = find(inorder_st, inorder_ed, *preorder_st);
+    if (tmp == inorder_ed) return tree;
+    if (tmp != inorder_ed - 1) {
+        tree->right = buildTreeRec(preorder_st + (tmp - inorder_st + 1), preorder_ed,
+            tmp + 1, inorder_ed);
+    }
+    if (tmp != inorder_st) {
+        tree->left = buildTreeRec(preorder_st + 1, preorder_st + (tmp - inorder_st + 1),
+            inorder_st, tmp);
+    }
+
+    return tree;
+
+}
+
+TreeNode* buildTree(vector<int> preorder, vector<int> inorder) {
+    return buildTreeRec(preorder.begin(), preorder.end(), inorder.begin(), inorder.end());
+
+}
+
+TreeNode* buildPostTreeRec(vector<int>::iterator inorder_st, vector<int>::iterator inorder_ed,
+    vector<int>::iterator  postorder_st, vector<int>::iterator  postorder_ed) {
+    TreeNode* tree = new TreeNode(*(postorder_ed - 1));
+    vector<int>::iterator tmp = find(inorder_st, inorder_ed, *(postorder_ed - 1));
+    if (tmp == inorder_ed) { return tree; }
+    if (tmp != inorder_st) {
+
+        tree->left = buildPostTreeRec(inorder_st, tmp, postorder_st, postorder_ed - (inorder_ed - tmp));
+    }
+    if (tmp != inorder_ed - 1) {
+        tree->right = buildPostTreeRec(tmp + 1, inorder_ed, postorder_ed - (inorder_ed - tmp + 1), postorder_ed - 1);
+    }
+
+    return tree;
+
+}
+
+
+TreeNode* buildPostTree(vector<int>& inorder, vector<int>& postorder) {
+    return buildPostTreeRec(inorder.begin(), inorder.end(), postorder.begin(), postorder.end());
+}
+
+void iterate(vector<int>::iterator start, vector<int>::iterator end) {
+    while (start != end) {
+        *start = *start + 1;
+        //cout << *start << " ";
+        ++start;
+    }
+}
+
+void iterators() {
+    vector<int> vec = { 1,2,3,4,5,6,7,8,9,10 };
+    std::vector<int> vec2(vec.begin(), vec.begin() + 4);
+    std::vector<int> vec3(vec.begin() + 4, vec.end());
+
+    vector<int>::iterator start = vec.begin();
+    vector<int>::iterator tmp = vec.begin() + 6;
+    vector<int>::iterator end = vec.end();
+
+    //iterate(start, end);
+    end -= end - tmp;
+    cout << *(end - 4) << endl;
+
+    //cout << *(start + 5);
+    //cout << endl;
+
+    for (int x : vec) {
+        //cout << x << " ";
+    }
 }
 

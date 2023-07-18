@@ -8,6 +8,7 @@
 #include <stack>
 #include <regex>
 #include <set>
+#include <iterator>
 using namespace std;
 
 int rec_sum(int num);
@@ -255,6 +256,8 @@ struct TreeNode {
 	TreeNode();
 	TreeNode(int x);
 	TreeNode(int x, TreeNode* left, TreeNode* right);
+	void show(); 
+	void print(int level); 
 
 };
 
@@ -265,4 +268,19 @@ bool isSymmetricRec(TreeNode* p, TreeNode* q);
 bool isSymmetric(TreeNode* root);
 bool hasPathSumRec(TreeNode* root, int targetSum);
 bool hasPathSum(TreeNode* root, int targetSum);
+TreeNode* buildTreeRec(vector<int>::iterator preorder_st, vector<int>::iterator preorder_ed,
+	vector<int>::iterator inorder_st, vector<int>::iterator inorder_ed);
+TreeNode* buildTree(vector<int> preorder, vector<int> inorder);
+
+TreeNode* buildPostTreeRec(vector<int>::iterator inorder_st, vector<int>::iterator inorder_ed,
+	vector<int>::iterator  postorder_st, vector<int>::iterator  postorder_ed);
+TreeNode* buildPostTree(vector<int>& inorder, vector<int>& postorder);
+
+
+
+
+
+
+void iterate(vector<int>::iterator start, vector<int>::iterator end);
+void iterators();
 
