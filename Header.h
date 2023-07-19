@@ -276,8 +276,13 @@ TreeNode* buildPostTreeRec(vector<int>::iterator inorder_st, vector<int>::iterat
 	vector<int>::iterator  postorder_st, vector<int>::iterator  postorder_ed);
 TreeNode* buildPostTree(vector<int>& inorder, vector<int>& postorder);
 
-
-
+void print(TreeNode* root, int level);
+int maxPathS1(TreeNode* root, vector<int>& vec);
+int maxPathSum1(TreeNode* root);
+pair<int, int> maxPathS(TreeNode* root);
+int maxPathSum(TreeNode* root);
+int helper(TreeNode* root, int& maxi);
+int maxPathSum3(TreeNode* root);
 
 
 

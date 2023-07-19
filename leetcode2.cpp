@@ -553,3 +553,98 @@ void iterators() {
     }
 }
 
+void print(TreeNode* root, int level) {
+    if (root->right) {
+        print(root->right, level + 1);
+    }
+    for (int x = 1; x < level; x++) { cout << "   "; }
+    cout << level << ": " << root->val << " " << endl;
+    if (root->left) {
+        print(root->left, level + 1);
+    }
+}
+
+
+int maxPathS1(TreeNode* root, vector<int>& vec) {
+    if (!root) return -100000;
+    int right = maxPathS1(root->right, vec);
+    int left = maxPathS1(root->left, vec);
+
+    int max_child = max(right, left);
+    if (root->val <= root->val + max_child) {
+        if (max_child + root->val <= max_child) {
+            vec.push_back(max_child);
+        }
+        if (right + left + root->val > root->val + max_child) {
+            vec.push_back(right + left + root->val);
+        }
+        return root->val + max_child;
+
+    }
+    else {
+        vec.push_back(max_child);
+        return root->val;
+    }
+}
+
+int maxPathSum1(TreeNode* root) {
+    vector<int> vec;
+    vec.push_back(maxPathS1(root, vec));
+    if (vec.size() == 0) {
+        return 0;
+    }
+    int sum = vec[0];
+    for (int x : vec) {
+        if (x > sum) sum = x;
+    }
+    return sum;
+}
+
+
+pair<int, int> maxPathS(TreeNode* root) {
+    if (!root) return { -100000, -100000 };
+    if (!root->right && !root->left) return { root->val, root->val };
+    pair<int, int> right = maxPathS(root->right);
+    pair<int, int> left = maxPathS(root->left);
+    int max_child = max(right.second, left.second);
+    int max_absolute = max(right.first, left.first);
+    if (root->val <= root->val + max_child) {
+        if (max_child + root->val <= max_child) {
+            max_absolute = max(max_absolute, max_child);
+        }
+        if (right.second + left.second + root->val > root->val + max_child) {
+            max_absolute = max(max_absolute, right.second + left.second + root->val);
+        }
+        return { max_absolute, root->val + max_child };
+
+    }
+    else {
+        max_absolute = max(max_absolute, max_child);
+        return { max_absolute, root->val };
+    }
+}
+
+int maxPathSum(TreeNode* root) {
+    if (!root->right && !root->left) return root->val;
+    return max(maxPathS(root).first, maxPathS(root).second);
+}
+
+
+
+
+int helper(TreeNode* root, int& maxi) {
+    if (root == NULL) return 0;
+
+    int lh = max(0, helper(root->left, maxi));
+    int rh = max(0, helper(root->right, maxi));
+    maxi = max(maxi, lh + rh + root->val);
+    return max(lh, rh) + root->val;
+}
+int maxPathSum3(TreeNode* root) {
+    if (root == NULL) return 0;
+    if (!root->left && !root->right) return root->val;
+    int maxi = INT_MIN;
+    helper(root, maxi);
+    return maxi;
+}
+
