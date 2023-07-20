@@ -648,3 +648,25 @@ int maxPathSum3(TreeNode* root) {
     return maxi;
 }
 
+
+void flatten1(TreeNode* root) {
+    while (root) {
+        if (root->left) {
+            TreeNode* tmp = root->right;
+            root->right = root->left;
+            TreeNode* tmp2 = root;
+            while (tmp2->right) {
+                tmp2 = tmp2->right;
+            }
+            tmp2->right = tmp;
+            root->left = nullptr;
+        }
+        root = root->right;
+    }
+
+    return;
+
+
+
+
+}

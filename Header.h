@@ -283,6 +283,7 @@ pair<int, int> maxPathS(TreeNode* root);
 int maxPathSum(TreeNode* root);
 int helper(TreeNode* root, int& maxi);
 int maxPathSum3(TreeNode* root);
+void flatten1(TreeNode* root);
 
 
 
