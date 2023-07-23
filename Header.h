@@ -8,6 +8,7 @@
 #include <stack>
 #include <regex>
 #include <set>
+#include <queue>
 #include <iterator>
 using namespace std;
 
@@ -299,7 +300,14 @@ int maxPathSum(TreeNode* root);
 int helper(TreeNode* root, int& maxi);
 int maxPathSum3(TreeNode* root);
 void flatten1(TreeNode* root);
+void sumNumbersRec(TreeNode* root, int cur_sum, int* total_sum);
+int sumNumbers(TreeNode* root);
 NodeTree* connect_perfect_tree(NodeTree* root);
+NodeTree* connect2(NodeTree* root); 
+NodeTree* connect3(NodeTree* root); 
+NodeTree* connect_hard(NodeTree* root);
+NodeTree* connect_hard_2(NodeTree* root);
+NodeTree* connect_hard_3(NodeTree* root);
 
 
 

@@ -671,6 +671,27 @@ void flatten1(TreeNode* root) {
 
 }
 
+void sumNumbersRec(TreeNode* root, int cur_sum, int* total_sum) {
+    if (!root->left && !root->right) {
+        *total_sum += cur_sum + root->val;
+    }
+    else {
+        if (root->left) {
+            sumNumbersRec(root->left, cur_sum + root->val, total_sum);
+        }
+        if (root->right) {
+            sumNumbersRec(root->right, cur_sum + root->val, total_sum);
+        }
+    }
+
+}
+
+int sumNumbers(TreeNode* root) {
+    int total_sum = 0;
+    sumNumbersRec(root, 0, &total_sum);
+    return total_sum;
+}
+
 
 NodeTree::NodeTree() : val(0), left(NULL), right(NULL), next(NULL) {}
 
@@ -690,5 +711,116 @@ NodeTree* connect_perfect_tree(NodeTree* root) {
     }
     connect_perfect_tree(root->left);
     connect_perfect_tree(root->right);
+    return root;
+}
+
+NodeTree* connect2(NodeTree* root) {
+    if (!root) return nullptr;
+    queue<NodeTree*> q;
+    q.push(root);
+    while (size(q)) {
+        NodeTree* rightNode = nullptr;
+        for (int i = size(q); i; i--) {
+            auto cur = q.front(); q.pop();
+            cur->next = rightNode;
+            rightNode = cur;
+            if (cur->right)
+                q.push(cur->right),
+                q.push(cur->left);
+        }
+    }
+    return root;
+}
+
+
+NodeTree* connect3(NodeTree* root) {
+    auto head = root;
+    for (; root; root = root->left)
+        for (auto cur = root; cur; cur = cur->next)   // traverse each level - it's just BFS taking advantage of next pointers          
+            if (cur->left) {                          // update next pointers of children if they exist               
+                cur->left->next = cur->right;
+                if (cur->next) cur->right->next = cur->next->left;
+            }
+            else break;                                // if no children exist, stop iteration                                                  
+
+    return head;
+}
+
+NodeTree* connect_hard(NodeTree* root) {
+    if (!root) return nullptr;
+    queue<NodeTree*> q;
+    NodeTree* tmp;
+    q.push(root);
+    while (!q.empty()) {
+        tmp = q.front();
+        q.pop();
+        if (tmp->left) q.push(tmp->left);
+        if (tmp->right) q.push(tmp->right);
+        if (tmp->left && tmp->right) tmp->left->next = tmp->right;
+        NodeTree* tmp3 = (tmp->right) ? tmp->right : tmp->left;
+        NodeTree* tmp4 = tmp->next;
+        while (tmp4) {
+            NodeTree* tmp2 = (tmp4->left) ? tmp4->left : tmp4->right;
+            if (tmp3 && tmp2) { tmp3->next = tmp2; break; }
+            tmp4 = tmp4->next;
+        }
+    }
+    return root;
+}
+
+NodeTree* connect_hard_2(NodeTree* root) {
+    if (!root) return nullptr;
+    queue<NodeTree*> q;
+    q.push(root);
+    while (size(q)) {
+        NodeTree* rightNode = nullptr;
+        for (int i = size(q); i; i--) {
+            auto cur = q.front(); q.pop();
+            if (cur) {
+                cur->next = rightNode;
+                rightNode = cur;
+                if (cur->right) q.push(cur->right);
+                if (cur->left)  q.push(cur->left);
+            }
+        }
+    }
+    return root;
+}
+
+NodeTree* connect_hard_3(NodeTree* root) {
+    NodeTree* answer = root;
+    if (root == NULL) {
+        return root;
+    }
+    root->next = NULL;
+    queue<NodeTree*> q;
+    if (root->left) {
+        q.push(root->left);
+    }
+    if (root->right) {
+        q.push(root->right);
+    }
+    q.push(NULL);
+    while (!q.empty()) {
+        if (q.front() == NULL) {
+            if (q.size() == 1) {
+                break;
+            }
+            q.pop();
+            q.push(NULL);
+            continue;
+        }
+        NodeTree* A = q.front();
+        q.pop();
+
+        A->next = q.front();
+        if (A->left) {
+            q.push(A->left);
+        }
+        if (A->right) {
+            q.push(A->right);
+        }
+
+    }
     return root;
 }
