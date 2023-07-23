@@ -670,3 +670,25 @@ void flatten1(TreeNode* root) {
 
 
 }
+
+
+NodeTree::NodeTree() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+NodeTree::NodeTree(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+NodeTree::NodeTree(int _val, NodeTree* _left, NodeTree* _right, NodeTree* _next)
+    : val(_val), left(_left), right(_right), next(_next) {}
+
+NodeTree* connect_perfect_tree(NodeTree* root) {
+    if (!root) return nullptr;
+    NodeTree* tmp = root->right;
+    NodeTree* tmp1 = root->left;
+    while (tmp && tmp1) {
+        tmp1->next = tmp;
+        tmp = (tmp->left != nullptr) ? tmp->left : tmp->right;
+        tmp1 = (tmp1->right != nullptr) ? tmp1->right : tmp1->left;
+    }
+    connect_perfect_tree(root->left);
+    connect_perfect_tree(root->right);
+    return root;
+}

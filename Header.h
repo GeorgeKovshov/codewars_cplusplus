@@ -100,6 +100,7 @@ struct ListNode {
 
 };
 
+
 class Node {
 public:
 	int val;
@@ -107,6 +108,20 @@ public:
 	Node* random;
 
 	Node(int _val);
+};
+
+class NodeTree {
+public:
+	int val;
+	NodeTree* left;
+	NodeTree* right;
+	NodeTree* next;
+
+	NodeTree();
+
+	NodeTree(int _val);
+
+	NodeTree(int _val, NodeTree* _left, NodeTree* _right, NodeTree* _next);
 };
 
 
@@ -284,6 +299,7 @@ int maxPathSum(TreeNode* root);
 int helper(TreeNode* root, int& maxi);
 int maxPathSum3(TreeNode* root);
 void flatten1(TreeNode* root);
+NodeTree* connect_perfect_tree(NodeTree* root);
 
 
 
