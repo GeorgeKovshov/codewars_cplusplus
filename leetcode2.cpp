@@ -824,3 +824,54 @@ NodeTree* connect_hard_3(NodeTree* root) {
     }
     return root;
 }
+
+class BSTIterator {
+    TreeNode* node;
+    int curr;
+    stack<int> sta;
+
+    int size;
+    vector<TreeNode*> vec;
+public:
+    TreeNode* smt(TreeNode* cur) {
+        if (cur) {
+            if (cur->left) {
+                smt(cur->left);
+
+            }
+            vec.push_back(cur);
+            size++;
+            if (cur->right) {
+                smt(cur->right);
+            }
+            return cur;
+        }
+        else return nullptr;
+        sta.
+    }
+
+    BSTIterator(TreeNode* root) {
+        vec.push_back(root);
+
+        size = 0;
+        smt(root);
+        curr = 0;
+        node = root;
+    }
+
+    int next() {
+        curr++;
+        if (curr <= size) {
+            node = vec[curr];
+            return vec[curr]->val;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    bool hasNext() {
+        return curr < size;
+    }
+};
+
