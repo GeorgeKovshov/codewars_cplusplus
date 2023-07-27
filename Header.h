@@ -308,6 +308,7 @@ NodeTree* connect3(NodeTree* root);
 NodeTree* connect_hard(NodeTree* root);
 NodeTree* connect_hard_2(NodeTree* root);
 NodeTree* connect_hard_3(NodeTree* root);
+vector<int> rightSideView(TreeNode* root);
 
 
 

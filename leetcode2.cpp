@@ -847,7 +847,6 @@ public:
             return cur;
         }
         else return nullptr;
-        sta.
     }
 
     BSTIterator(TreeNode* root) {
@@ -874,4 +873,25 @@ public:
         return curr < size;
     }
 };
+
+vector<int> rightSideView(TreeNode* root) {
+    queue<TreeNode*> q;
+    q.push(root);
+    q.push(nullptr);
+    int tmp = 0;
+    vector<int> vec;
+    while (!q.empty() && q.front()) {
+        if (q.front()->left) {
+            q.push(q.front()->left);
+        }
+        if (q.front()->right) {
+            q.push(q.front()->right);
+        }
+        tmp = q.front()->val;
+        q.pop();
+        if (!q.front()) { q.push(nullptr); vec.push_back(tmp); q.pop(); }
+    }
+    return vec;
+
+}
 
