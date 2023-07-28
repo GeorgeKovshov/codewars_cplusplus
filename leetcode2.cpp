@@ -895,3 +895,147 @@ vector<int> rightSideView(TreeNode* root) {
 
 }
 
+void right(TreeNode* root, int level, vector<int>& result) {
+    if (root == NULL)
+        return;
+    if (level == result.size())
+        result.push_back(root->val);
+    right(root->right, level + 1, result);
+    right(root->left, level + 1, result);
+}
+vector<int> rightSideView1(TreeNode* root) {
+    vector<int> result;
+    right(root, 0, result);
+    return result;
+}
+
+vector<double> averageOfLevels(TreeNode* root) {
+    queue<TreeNode*> q;
+    q.push(root);
+    q.push(nullptr);
+    vector<double> vec;
+    double sum = 0;
+    float count = 0;
+    while (q.front()) {
+        if (q.front()->left) {
+            q.push(q.front()->left);
+        }
+        if (q.front()->right) {
+            q.push(q.front()->right);
+        }
+        sum += q.front()->val;
+        count++;
+        q.pop();
+
+        if (!q.front()) {
+            q.pop();
+            vec.push_back(sum / count);
+            sum = 0; count = 0;
+            q.push(nullptr);
+        }
+    }
+    return vec;
+}
+
+vector<double> averageOfLevels1(TreeNode* root) {
+    vector<double> res;
+    queue<TreeNode*> q;
+    q.push(root);
+    while (!q.empty()) {
+        long temp = 0;
+        int s = q.size();
+        for (int i = 0; i < s; i++) {
+            TreeNode* t = q.front();
+            q.pop();
+            if (t->left) q.push(t->left);
+            if (t->right) q.push(t->right);
+            temp += t->val;
+        }
+        res.push_back((double)temp / s);
+    }
+    return res;
+}
+vector<vector<int>> levelOrder(TreeNode* root) {
+    if (!root) return {};
+    queue<TreeNode*> q;
+    q.push(root);
+    vector<vector<int>> result;
+    vector<int> level;
+    while (!q.empty()) {
+        int length = q.size();
+        for (int i = 0; i < length; i++) {
+            if (!q.front()) {
+                level.erase(level.begin() + i - 1, level.end());
+                break;
+            }
+            TreeNode* t = q.front();
+            q.pop();
+            if (t->left) q.push(t->left);
+            if (t->right) q.push(t->right);
+            if (i < level.size()) {
+                level[i] = t->val;
+            }
+            else {
+                level.push_back(t->val);
+            }
+
+        }
+        result.push_back(level);
+
+    }
+    return result;
+}
+
+vector<vector<int>> levelOrder1(TreeNode* root) {
+    if (!root) return {};
+    queue<TreeNode*> q;
+    q.push(root);
+    vector<vector<int>> result;
+    int cur_level = 0;
+    while (!q.empty()) {
+        int length = q.size();
+        result.push_back({});
+        for (int i = 0; i < length; i++) {
+            if (!q.front()) break;
+            TreeNode* t = q.front();
+            q.pop();
+            if (t->left) q.push(t->left);
+            if (t->right) q.push(t->right);
+            result[cur_level].push_back(t->val);
+        }
+        cur_level++;
+    }
+    return result;
+}
+
+vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+    if (!root) return {};
+    stack<TreeNode*> stack1;
+    stack<TreeNode*> stack2;
+    bool is_reverse = false;
+    vector<vector<int>> result;
+    stack2.push(root);
+    while (!stack1.empty() || !stack2.empty()) {
+        vector<int> level;
+        if (is_reverse) {
+            while (!stack1.empty()) {
+                if (stack1.top()->right) stack2.push(stack1.top()->right);
+                if (stack1.top()->left) stack2.push(stack1.top()->left);
+                level.push_back(stack1.top()->val);
+                stack1.pop();
+            }
+        }
+        else {
+            while (!stack2.empty()) {
+                if (stack2.top()->left) stack1.push(stack2.top()->left);
+                if (stack2.top()->right) stack1.push(stack2.top()->right);
+                level.push_back(stack2.top()->val);
+                stack2.pop();
+            }
+        }
+        is_reverse = !is_reverse;
+        result.push_back(level);
+    }
+    return result;
+}
+

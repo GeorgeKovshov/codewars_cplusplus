@@ -309,6 +309,13 @@ NodeTree* connect_hard(NodeTree* root);
 NodeTree* connect_hard_2(NodeTree* root);
 NodeTree* connect_hard_3(NodeTree* root);
 vector<int> rightSideView(TreeNode* root);
+void right(TreeNode* root, int level, vector<int>& result);
+vector<int> rightSideView1(TreeNode* root);
+vector<double> averageOfLevels(TreeNode* root);
+vector<double> averageOfLevels1(TreeNode* root);
+vector<vector<int>> levelOrder(TreeNode* root);
+vector<vector<int>> levelOrder1(TreeNode* root);
+vector<vector<int>> zigzagLevelOrder(TreeNode* root);
 
 
 
