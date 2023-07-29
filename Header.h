@@ -318,7 +318,9 @@ vector<vector<int>> levelOrder1(TreeNode* root);
 vector<vector<int>> zigzagLevelOrder(TreeNode* root);
 
 
-
 void iterate(vector<int>::iterator start, vector<int>::iterator end);
 void iterators();
 
+
+//graphs
+int numIslands(vector<vector<char>>& grid);

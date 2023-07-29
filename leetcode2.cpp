@@ -1039,3 +1039,22 @@ vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
     return result;
 }
 
+
+
+int numIslands(vector<vector<char>>& grid) {
+    if (grid.size() == 0) return 0;
+    int sum = 0;
+    int width = grid[0].size();
+    int height = grid.size();
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            if (grid[i][j] == 4) {
+                if (i == 0 && j == 0) sum++;
+                else if (i == 0 && grid[i][j - 1] == 0) sum++;
+                else if ((grid[i - 1][j] == 0 && grid[i][j - 1] == 0)) sum++;
+            }
+        }
+    }
+    return sum;
+
+}
