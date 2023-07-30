@@ -1058,3 +1058,110 @@ int numIslands(vector<vector<char>>& grid) {
     return sum;
 
 }
+
+
+
+
+    void Solution::land_explorer(vector<vector<char>>& grid) {
+        while (j < width) {
+            if (int(grid[i][j]) == 49) {
+                grid[i][j] = c;
+            }
+            else {
+                break;
+            }
+            j++;
+        }
+        i++;
+        vector<char> connected_islands;
+        connected_islands.push_back(c);
+        //height loop
+        while (i < height) {
+            bool off_shore = true;
+            if (int(grid[i - 1][0]) == int(c) && int(grid[i][0]) == 49) { grid[i][0] = c; off_shore = false; }
+            j = 1;
+            //width loop
+            while (j < width) {
+                // if land to the left is 'c'
+                if (int(grid[i][j - 1]) == int(c)) {
+                    if (int(grid[i][j]) == 49) {
+                        grid[i][j] = c;
+                        off_shore = false;
+                    }
+                    else if (int(grid[i][j]) >= 49) {
+
+                        if (find(connected_islands.begin(), connected_islands.end(), grid[i][j]) == connected_islands.end()) {
+                            connected_islands.push_back(grid[i][j]);
+                            sum--;
+                        }
+                        grid[i][j] = c;
+
+                    }
+                }
+                // if land north of current is 'c'
+                else if (int(grid[i - 1][j]) == int(c)) {
+                    if (int(grid[i][j]) == 49) {
+                        grid[i][j] = c;
+                        off_shore = false;
+                        //backtracking
+                        int j_b = j - 1;
+                        while (j_b >= 0) {
+                            if (grid[i][j_b] == 48) {
+                                break;
+                            }
+                            else if (grid[i][j_b] == 49) {
+                                grid[i][j_b] = c;
+                            }
+                            else if (grid[i][j_b] != c) {
+                                if (find(connected_islands.begin(), connected_islands.end(), grid[i][j_b]) == connected_islands.end()) {
+                                    connected_islands.push_back(grid[i][j_b]);
+                                    sum--;
+                                }
+                                grid[i][j_b] = c;
+                            }
+
+                            j_b--;
+                        }
+                        //backtracking ends
+                    }
+                    else if (int(grid[i][j]) >= 49) {
+                        if (find(connected_islands.begin(), connected_islands.end(), grid[i][j]) == connected_islands.end()) {
+                            connected_islands.push_back(grid[i][j]);
+                            sum--;
+                        }
+                    }
+                }
+                j++;
+            }
+            if (off_shore) break;
+            j = 0;
+            i++;
+        }
+    }
+
+    int Solution::numIslands(vector<vector<char>>& grid) {
+        if (grid.size() == 0) return 0;
+        i = 0;
+        j = 0;
+        c = 49;
+        sum = 0;
+        height = grid.size();
+        width = grid[0].size();
+        while (i < height) {
+            j = 0;
+            while (j < width) {
+                if (int(grid[i][j]) == 49) {
+                    c++;
+                    int i1 = i; int j1 = j;
+                    land_explorer(grid);
+                    i = i1; j = j1;
+                    sum++;
+                }
+                j++;
+            }
+            i++;
+        }
+        return sum;
+
+    }
+

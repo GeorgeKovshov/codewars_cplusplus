@@ -324,3 +324,14 @@ void iterators();
 
 //graphs
 int numIslands(vector<vector<char>>& grid);
+class Solution {
+    int height;
+    int width;
+    int i;
+    int j;
+    char c;
+    int sum;
+public:
+	void land_explorer(vector<vector<char>>& grid);
+    int numIslands(vector<vector<char>>& grid);
+};
