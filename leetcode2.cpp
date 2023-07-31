@@ -1165,3 +1165,63 @@ int numIslands(vector<vector<char>>& grid) {
 
     }
 
+
+void Islands::land_explorer(vector<vector<char>>& grid, int i, int j) {
+    if (int(grid[i][j]) != 49) {
+        return;
+    }
+    grid[i][j]++;
+    if (i > 0) land_explorer(grid, i - 1, j);
+    if (j > 0) land_explorer(grid, i, j - 1);
+    if (j < width - 1) land_explorer(grid, i, j + 1);
+    if (i < height - 1) land_explorer(grid, i + 1, j);
+
+}
+
+int Islands::numIslands(vector<vector<char>>& grid) {
+    height = grid.size();
+    width = grid[0].size();
+    int sum = 0;
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < grid[0].size(); j++) {
+            if (int(grid[i][j]) == 49) {
+                sum++;
+                land_explorer(grid, i, j);
+            }
+        }
+    }
+    return sum;
+
+}
+
+
+void Regions::marking(vector<vector<char>>& board, int i, int j) {
+    if (int(board[i][j]) != 79) return;
+    board[i][j]++;
+    if (i > 0) marking(board, i - 1, j);
+    if (j > 0) marking(board, i, j - 1);
+    if (i < height - 1) marking(board, i + 1, j);
+    if (j < width - 1) marking(board, i, j + 1);
+}
+
+void Regions::solve(vector<vector<char>>& board) {
+    if (board.size() == 0 || board[0].size() == 0) return;
+    width = board[0].size();
+    height = board.size();
+    int i = 0; int j = 0;
+    while (j < width) marking(board, 0, j++);
+    while (i < height) marking(board, i++, width - 1);
+    while (j > 0) marking(board, height - 1, --j);
+    while (i > 0) marking(board, --i, 0);
+
+    for (i = 0; i < height; i++) {
+        for (j = 0; j < width; j++) {
+            if (int(board[i][j]) == 79) board[i][j] = 'X';
+            if (int(board[i][j]) == 80) board[i][j]--;
+        }
+    }
+}
+
+
+
+

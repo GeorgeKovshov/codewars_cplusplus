@@ -335,3 +335,21 @@ public:
 	void land_explorer(vector<vector<char>>& grid);
     int numIslands(vector<vector<char>>& grid);
 };
+class Islands {
+	int width;
+	int height;
+
+public:
+	void land_explorer(vector<vector<char>>& grid, int i, int j);
+	int numIslands(vector<vector<char>>& grid);
+};
+
+class Regions {
+	int width;
+	int height;
+public:
+
+	void marking(vector<vector<char>>& board, int i, int j);
+
+	void solve(vector<vector<char>>& board);
+};
