@@ -1222,6 +1222,42 @@ void Regions::solve(vector<vector<char>>& board) {
     }
 }
 
+NodeGraph::NodeGraph() {
+    val = 0;
+    neighbors = std::vector<NodeGraph*>();
+}
+NodeGraph::NodeGraph(int _val) {
+    val = _val;
+    neighbors = std::vector<NodeGraph*>();
+}
+NodeGraph::NodeGraph(int _val, std::vector<NodeGraph*> _neighbors) {
+    val = _val;
+    neighbors = _neighbors;
+}
+
+#include <unordered_map>
+
+NodeGraph* cloneGraphRec(NodeGraph* node, std::unordered_map<NodeGraph*, NodeGraph*>& dp) {
+    if (!node) return nullptr;
+    NodeGraph* node_copy = new NodeGraph(node->val);
+    dp.insert({ node, node_copy });
+    for (NodeGraph* n : node->neighbors) {
+        if (dp.find(n) == dp.end()) {
+            node_copy->neighbors.push_back(cloneGraphRec(n, dp));
+        }
+        else {
+            node_copy->neighbors.push_back(dp[n]);
+        }
+    }
+    return node_copy;
+}
+
+
+NodeGraph* cloneGraph(NodeGraph* node) {
+    std::unordered_map<NodeGraph*, NodeGraph*> dp;
+    return(cloneGraphRec(node, dp));
+}
+
 
 
 

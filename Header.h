@@ -353,3 +353,12 @@ public:
 
 	void solve(vector<vector<char>>& board);
 };
+
+class NodeGraph {
+public:
+	int val;
+	std::vector<NodeGraph*> neighbors;
+	NodeGraph();
+	NodeGraph(int _val);
+	NodeGraph(int _val, std::vector<NodeGraph*> _neighbors);
+};
