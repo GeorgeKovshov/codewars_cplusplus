@@ -1259,5 +1259,174 @@ NodeGraph* cloneGraph(NodeGraph* node) {
 }
 
 
+double deikstra(std::unordered_map<std::string, int>& hash, std::vector<std::vector<double>>& vec, std::string current, std::string destination, std::vector<std::string>& remaining_letters) {
+    int length = remaining_letters.size();
+    if (length == 0) return -1.0;
+    for (int i = 0; i < length; i++) {
+        if (remaining_letters[i] == destination && vec[hash[current]][hash[remaining_letters[i]]] != -1) return vec[hash[current]][hash[remaining_letters[i]]];
+        if (current == remaining_letters[i]) {
+            remaining_letters.erase(remaining_letters.begin() + i);
+            i--; length--;
+        }
+    }
+    int i = 0;
+    while (i < length) {
+        if (vec[hash[current]][hash[remaining_letters[i]]] != -1) {
+            int var = hash[remaining_letters[i]];
+            double tmp = deikstra(hash, vec, remaining_letters[i], destination, remaining_letters) * vec[hash[current]][var];
+            length = remaining_letters.size();
+            i--;
+            if (tmp > 0) return tmp;
+        }
+        i++;
+    }
+    return -1.0;
+}
+
+std::vector<double> calcEquation(std::vector<std::vector<std::string>>& equations, std::vector<double>& values, std::vector<std::vector<std::string>>& queries) {
+    std::unordered_map<std::string, int> hash;
+    int ind = 0;
+    //std::cout << " ";
+    std::vector<std::string> letters;
+    for (int i = 0; i < equations.size(); i++) {
+        if (hash.find(equations[i][0]) == hash.end()) {
+            hash.insert({ equations[i][0], ind++ });
+            //std::cout << " " << equations[i][0] ;
+            letters.push_back(equations[i][0]);
+        }
+        if (hash.find(equations[i][1]) == hash.end()) {
+            hash.insert({ equations[i][1], ind++ });
+            //std::cout << " " << equations[i][1];
+            letters.push_back(equations[i][1]);
+        }
+    }
+    //std::cout << std::endl;
+    std::vector<double> tmp(ind, -1);
+    std::vector<std::vector<double>> vec(ind, tmp);
+    for (int i = 0; i < equations.size(); i++) {
+        vec[hash[equations[i][0]]][hash[equations[i][1]]] = values[i];
+        vec[hash[equations[i][1]]][hash[equations[i][0]]] = 1.0 / values[i];
+    }
+    /*
+    for (int i = 0; i < vec.size(); i++) {
+        std::cout << letters[i] << " ";
+        for (int j = 0; j < vec[0].size(); j++) {
+            std::cout << vec[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }*/
+    
+
+    std::vector<double> result;
+    //std::vector<std::string> letters2 = letters;
+
+    //std::cout << deikstra(hash, vec, "x1", "x5", letters2);
+
+    for (int i = 0; i < queries.size(); i++) {
+        std::string foo = queries[i][0];
+        std::string bar = queries[i][1];
+        if (hash.find(foo) == hash.end() || hash.find(bar) == hash.end()) result.push_back(-1);
+        else if (vec[hash[foo]][hash[bar]] == -1) {
+            bool exists = false;
+            for (int j = 0; j < ind; j++) {
+                if (vec[hash[foo]][j] != -1 && vec[hash[bar]][j] != -1) {
+                    double baz = vec[hash[foo]][j] / vec[hash[bar]][j];
+                    result.push_back(baz);
+                    vec[hash[foo]][hash[bar]] = baz;
+                    vec[hash[bar]][hash[foo]] = 1.0 / baz;
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                std::vector<std::string> letters2 = letters;
+                double num = deikstra(hash, vec, foo, bar, letters2);
+                //result.push_back(-1);
+                result.push_back(num);
+                vec[hash[foo]][hash[bar]] = num;
+                vec[hash[bar]][hash[foo]] = 1.0 / num;
+                //recursion here
+            }
+        }
+        else {
+            result.push_back(vec[hash[foo]][hash[bar]]);
+        }
+
+    }
+
+    return result;
+}
+
+double deikstra1(std::unordered_map<std::string, int>& hash, std::vector<std::vector<double>>& vec, std::string current, std::string destination, std::vector<std::string>& remaining_letters) {
+    int length = remaining_letters.size();
+    if (length == 0) return -1.0;
+    for (int i = 0; i < length; i++) {
+        if (remaining_letters[i] == destination && vec[hash[current]][hash[remaining_letters[i]]] != -1) return vec[hash[current]][hash[remaining_letters[i]]];
+        if (current == remaining_letters[i]) {
+            remaining_letters.erase(remaining_letters.begin() + i);
+            i--; length--;
+        }
+    }
+    int i = 0;
+    while (i < length) {
+        if (vec[hash[current]][hash[remaining_letters[i]]] != -1) {
+            int var = hash[remaining_letters[i]];
+            double tmp = deikstra1(hash, vec, remaining_letters[i], destination, remaining_letters) * vec[hash[current]][var];
+            length = remaining_letters.size();
+            i--;
+            if (tmp > 0) return tmp;
+        }
+        i++;
+    }
+    return -1.0;
+}
+
+std::vector<double> calcEquation1(std::vector<std::vector<std::string>>& equations, std::vector<double>& values, std::vector<std::vector<std::string>>& queries) {
+    std::unordered_map<std::string, int> hash;
+    int ind = 0;
+    //std::cout << " ";
+    std::vector<std::string> letters;
+    for (int i = 0; i < equations.size(); i++) {
+        if (hash.find(equations[i][0]) == hash.end()) {
+            hash.insert({ equations[i][0], ind++ });
+            letters.push_back(equations[i][0]);
+        }
+        if (hash.find(equations[i][1]) == hash.end()) {
+            hash.insert({ equations[i][1], ind++ });
+            letters.push_back(equations[i][1]);
+        }
+    }
+    std::vector<double> tmp(ind, -1);
+    std::vector<std::vector<double>> vec(ind, tmp);
+    for (int i = 0; i < equations.size(); i++) {
+        vec[hash[equations[i][0]]][hash[equations[i][1]]] = values[i];
+        vec[hash[equations[i][1]]][hash[equations[i][0]]] = 1.0 / values[i];
+    }
+
+    std::vector<double> result;
+
+
+    for (int i = 0; i < queries.size(); i++) {
+        std::string foo = queries[i][0];
+        std::string bar = queries[i][1];
+        if (hash.find(foo) == hash.end() || hash.find(bar) == hash.end()) result.push_back(-1);
+        else if (foo == bar) result.push_back(1);
+        else if (vec[hash[foo]][hash[bar]] == -1) {
+            std::vector<std::string> letters2 = letters;
+            double num = deikstra(hash, vec, foo, bar, letters2);
+            result.push_back(num);
+            vec[hash[foo]][hash[bar]] = num;
+            vec[hash[bar]][hash[foo]] = 1.0 / num;
+        }
+        else {
+            result.push_back(vec[hash[foo]][hash[bar]]);
+        }
+
+    }
+
+    return result;
+}
+
+
 
 

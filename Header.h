@@ -362,3 +362,9 @@ public:
 	NodeGraph(int _val);
 	NodeGraph(int _val, std::vector<NodeGraph*> _neighbors);
 };
+
+double deikstra(std::unordered_map<std::string, int>& hash, std::vector<std::vector<double>>& vec, std::string current, std::string destination, std::vector<std::string>& remaining_letters); 
+double deikstra1(std::unordered_map<std::string, int>& hash, std::vector<std::vector<double>>& vec, std::string current, std::string destination, std::vector<std::string>& remaining_letters);
+std::vector<double> calcEquation(std::vector<std::vector<std::string>>& equations, std::vector<double>& values, std::vector<std::vector<std::string>>& queries);
+std::vector<double> calcEquation(std::vector<std::vector<std::string>>& equations, std::vector<double>& values, std::vector<std::vector<std::string>>& queries);
+ 
