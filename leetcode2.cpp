@@ -1039,6 +1039,12 @@ vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
     return result;
 }
 
+int countNodes1(TreeNode* root) {
+    if (!root) return 0;
+    int i = countNodes1(root->left);
+    return i + countNodes1(root->right) + 1;
+}
+
 
 
 int numIslands(vector<vector<char>>& grid) {

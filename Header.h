@@ -316,6 +316,7 @@ vector<double> averageOfLevels1(TreeNode* root);
 vector<vector<int>> levelOrder(TreeNode* root);
 vector<vector<int>> levelOrder1(TreeNode* root);
 vector<vector<int>> zigzagLevelOrder(TreeNode* root);
+int countNodes1(TreeNode* root);
 
 
 void iterate(vector<int>::iterator start, vector<int>::iterator end);
