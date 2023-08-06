@@ -1433,6 +1433,66 @@ std::vector<double> calcEquation1(std::vector<std::vector<std::string>>& equatio
     return result;
 }
 
+UF::UF(int value) {
+    val = value;
+    have_passed = false;
+    starting_node = true;
+    //parent = nullptr;
+}
+
+bool check_cycle(UF* root) {
+    if (root->have_passed) return false;
+    root->have_passed = true;
+    for (UF* x : root->children) {
+        if (!check_cycle(x)) return false;
+    }
+    root->have_passed = false;
+    return true;
+}
+
+void reset(UF* root) {
+    if (!root) return;
+    root->have_passed = false;
+    for (UF* x : root->children) {
+        reset(x);
+    }
+}
+
+bool canFinish(int numCourses, std::vector<std::vector<int>>& prerequisites) {
+    int length = prerequisites.size();
+    if (length == 0) return (numCourses > 0) ? true : false;
+    std::vector<UF*> vec;
+    UF* start = new UF(-1);
+    for (int i = 0; i < numCourses; i++) {
+        UF* tmp = new UF(i);
+        //tmp->parent = start;
+        //start->children.push_back(tmp);
+        vec.push_back(tmp);
+    }
+    for (int i = 0; i < length; i++) {
+        UF* tmp = vec[prerequisites[i][0]];
+        UF* tmp1 = vec[prerequisites[i][1]];
+        tmp->children.push_back(tmp1);
+        if (tmp == tmp1) return false;
+        if (tmp->starting_node) {
+            tmp1->starting_node = false;
+            start->children.push_back(tmp);
+        }
+    }
+    std::vector<UF*> roots = start->children;
+    bool no_loop = false;
+    for (int i = 0; i < roots.size(); i++) {
+        if (roots[i]->starting_node == false) continue;
+        no_loop = true;
+        UF* tmp = roots[i];
+        if (!check_cycle(tmp)) return false;
+        tmp = roots[i];
+        reset(roots[i]);
+    }
+    return no_loop;
+
+}
+
 
 
 
