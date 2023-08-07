@@ -369,19 +369,32 @@ double deikstra1(std::unordered_map<std::string, int>& hash, std::vector<std::ve
 std::vector<double> calcEquation(std::vector<std::vector<std::string>>& equations, std::vector<double>& values, std::vector<std::vector<std::string>>& queries);
 std::vector<double> calcEquation(std::vector<std::vector<std::string>>& equations, std::vector<double>& values, std::vector<std::vector<std::string>>& queries);
 
-class UF {
+/*class UF1 {
 public:
 	int val;
 	bool have_passed;
-	std::vector<UF*> children;
+	std::vector<UF1*> children;
 	//UF* parent;
 	bool starting_node;
 
-	UF(int value);
+	UF1(int value);
 
 };
 
+bool canFinish1(int numCourses, std::vector<std::vector<int>>& prerequisites);
+void reset(UF1* root);
+bool check_cycle1(UF1* root);*/
+
+class UF {
+public:
+	int val;
+	std::vector<UF*> previous;
+	//UF* parent;
+
+	UF(int value);
+
+
+};
+bool check_cycle(std::vector<UF*>& visited, UF* vert, std::vector<UF*>& rec_stack);
 bool canFinish(int numCourses, std::vector<std::vector<int>>& prerequisites);
-void reset(UF* root);
-bool check_cycle(UF* root);
  

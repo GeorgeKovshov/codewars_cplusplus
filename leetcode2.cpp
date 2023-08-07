@@ -1432,33 +1432,33 @@ std::vector<double> calcEquation1(std::vector<std::vector<std::string>>& equatio
 
     return result;
 }
-
-UF::UF(int value) {
+/***
+UF1::UF(int value) {
     val = value;
     have_passed = false;
     starting_node = true;
     //parent = nullptr;
 }
 
-bool check_cycle(UF* root) {
+bool check_cycle1(UF1* root) {
     if (root->have_passed) return false;
     root->have_passed = true;
-    for (UF* x : root->children) {
-        if (!check_cycle(x)) return false;
+    for (UF1* x : root->children) {
+        if (!check_cycle1(x)) return false;
     }
     root->have_passed = false;
     return true;
 }
 
-void reset(UF* root) {
+void reset(UF1* root) {
     if (!root) return;
     root->have_passed = false;
-    for (UF* x : root->children) {
+    for (UF1* x : root->children) {
         reset(x);
     }
 }
 
-bool canFinish(int numCourses, std::vector<std::vector<int>>& prerequisites) {
+bool canFinish1(int numCourses, std::vector<std::vector<int>>& prerequisites) {
     int length = prerequisites.size();
     if (length == 0) return (numCourses > 0) ? true : false;
     std::vector<UF*> vec;
@@ -1490,6 +1490,50 @@ bool canFinish(int numCourses, std::vector<std::vector<int>>& prerequisites) {
         reset(roots[i]);
     }
     return no_loop;
+
+}*/
+
+UF::UF(int value) {
+    val = value;
+    //parent = nullptr;
+}
+
+bool check_cycle(std::vector<UF*>& visited, UF* vert, std::vector<UF*>& rec_stack) {
+    visited.push_back(vert);
+    int length = rec_stack.size();
+    rec_stack.push_back(vert);
+    for (UF* u : vert->previous) {
+        if (find(rec_stack.begin(), rec_stack.end(), u) != rec_stack.end()) {
+            return true;
+        }
+        if (find(visited.begin(), visited.end(), u) != visited.end()) {
+            continue;
+        }
+        if (check_cycle(visited, u, rec_stack)) return true;
+
+    }
+    rec_stack.erase(rec_stack.begin() + length);
+    return false;
+}
+
+bool canFinish(int numCourses, std::vector<std::vector<int>>& prerequisites) {
+    std::vector<UF*> vertices;
+    for (int i = 0; i < numCourses; i++) {
+        vertices.push_back(new UF(i));
+    }
+    for (std::vector<int> pr : prerequisites) {
+        vertices[pr[0]]->previous.push_back(vertices[pr[1]]);
+    }
+    std::vector<UF*> visited;
+    for (int i = 0; i < numCourses; i++) {
+        if (find(visited.begin(), visited.end(), vertices[i]) != visited.end()) {
+            continue;
+        }
+        std::vector<UF*> rec_stack;
+        if (check_cycle(visited, vertices[i], rec_stack)) return false;
+
+    }
+    return true;
 
 }
 
