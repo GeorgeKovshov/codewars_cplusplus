@@ -1537,6 +1537,47 @@ bool canFinish(int numCourses, std::vector<std::vector<int>>& prerequisites) {
 
 }
 
+    bool SolutionBFS::canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+        graph g = buildGraph(numCourses, prerequisites);
+        vector<int> degrees = computeIndegrees(g);
+        for (int i = 0; i < numCourses; i++) {
+            int j = 0;
+            for (; j < numCourses; j++) {
+                if (!degrees[j]) {
+                    break;
+                }
+            }
+            if (j == numCourses) {
+                return false;
+            }
+            degrees[j]--;
+            for (int v : g[j]) {
+                degrees[v]--;
+            }
+        }
+        return true;
+    }
+
+
+    SolutionBFS::graph SolutionBFS::buildGraph(int numCourses, vector<pair<int, int>>& prerequisites) {
+        graph g(numCourses);
+        for (auto p : prerequisites) {
+            g[p.second].push_back(p.first);
+        }
+        return g;
+    }
+
+    vector<int> SolutionBFS::computeIndegrees(graph& g) {
+        vector<int> degrees(g.size(), 0);
+        for (auto adj : g) {
+            for (int v : adj) {
+                degrees[v]++;
+            }
+        }
+        return degrees;
+    }
+
+
 
 
 

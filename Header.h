@@ -397,4 +397,13 @@ public:
 };
 bool check_cycle(std::vector<UF*>& visited, UF* vert, std::vector<UF*>& rec_stack);
 bool canFinish(int numCourses, std::vector<std::vector<int>>& prerequisites);
- 
+class SolutionBFS {
+public:
+	bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites);
+private:
+	typedef vector<vector<int>> graph;
+
+	graph buildGraph(int numCourses, vector<pair<int, int>>& prerequisites);
+
+	vector<int> computeIndegrees(graph& g);
+};
