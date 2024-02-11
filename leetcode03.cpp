@@ -69,3 +69,42 @@ int lowest(std::string s) {
     return (*std::min_element(result.begin(), result.end())) + 1;
 
 }
+
+
+std::string alphabetWar(std::string fight)
+{
+    std::unordered_map<char, int> map{
+        {'w',-4},
+        {'p', -3},
+        {'b', -2},
+        {'s', -1},
+        {'m',  4},
+        {'q',  3},
+        {'d',  2},
+        {'z',  1}
+    };
+    int sum = 0;
+    for (int i = 0; i < fight.length(); i++) {
+        if (fight[i] == '*') {
+            if (i > 0 && map.find(fight[i - 1]) != map.end()) { sum -= map[fight[i - 1]]; }
+            if (i < fight.length() - 1 && map.find(fight[i - 1]) != map.end()) { sum -= map[fight[i + 1]]; }
+        }
+        if (map.find(fight[i]) != map.end()) {
+            sum += map[fight[i]];
+        }
+
+    }
+    if (sum == 0) {
+        return "Let's fight again!";
+    }
+    if (sum >= 0) {
+        return "Right side wins!";
+    }
+    if (sum <= 0) {
+        return "Left side wins!";
+    }
+    for (std::pair<char, int> p : map) {
+        std::cout << p.first << " " << p.second << "\n";
+    }
+    return "Have mercy!";
+}
